@@ -1,6 +1,7 @@
 import React from 'react';
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 import { Switch, Route } from 'react-router-dom';
+import Welcome from '../pages/welcome';
 import Exchange from '../pages/exchange';
 import Markets from '../pages/markets';
 import Profile from './profile';
@@ -23,6 +24,9 @@ export default function index() {
       <Layout>
         <Switch>
           <Route exact path="/">
+            <Welcome />
+          </Route>
+          <Route exact path="/trade">
             <Exchange />
           </Route>
           <Route path="/markets">
