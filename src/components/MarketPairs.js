@@ -21,7 +21,7 @@ export default function MarketPairs({changeContract, btc, eth, xrp, doge, link, 
         <h5 className="market-pairs-header">Hyper Contract</h5>
         {/* <Tabs defaultActiveKey="btc">
           <Tab eventKey="btc" title="BNB Contract"> */}
-            <table className="table">
+            <table className="table" size="sm">
               <tbody>
                 <tr className="mt15" onClick={() => {changeContract('BINANCE:BTCUSD')}}>
                   <td>
