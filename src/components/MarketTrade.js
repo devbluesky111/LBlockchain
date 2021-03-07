@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
+import Backend from './../@utils/BackendUrl';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { createContract } from "./../redux/actions/action";
 
-export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
+const MarketTrade = ({ createContract, symbol, btc, eth, xrp, doge, link, ltc}) => {
 
+  const [orderValue, setOrderValue] = useState('');
+  const [orderTime, setOrderTime] = useState('');
   const [rate, setRate] = useState({askPrice:'', priceChangePercent:''});
+
   useEffect(() => {
     switch (symbol) {
       case 'BINANCE:BTCUSD':
@@ -27,11 +35,37 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
     }
   }, [symbol, btc, eth, xrp, doge, link, ltc]);
 
-  const orderBuy = () => {
-    console.log('Buy button clicked');
+  const orderValidation = () => {
+    var orderIsValid = true;
+    if(orderValue < 1) {
+      orderIsValid = false;
+      alert('Margin must be greater than 1 USD')
+    } else if(orderValue > 500) {
+      orderIsValid = false;
+      alert('Max. Margin Allowed 500 USD')
+    }
+    return orderIsValid;
   }
-  const orderSell = () => {
+
+  const orderBuy = async () => {
+    if(orderValidation()){
+      setTimeout(() => {
+        createContract({margin: orderValue, openingPrice: rate.askPrice, orderTime: orderTime, symbol: symbol});      
+      }, 1000);
+      setOrderValue('');
+      setOrderTime('');
+      setRate({askPrice:'', priceChangePercent:''});
+    } else {      
+      setOrderValue('');
+      setOrderTime('');
+      setRate({askPrice:'', priceChangePercent:''});
+    }
+  }
+  
+  const orderSell = async () => {
     console.log('Sell button clicked');
+    const res = await axios.post(Backend.URL + '/api/contracts/order/close', {orderTime: orderTime, orderValue: orderValue, spreadRate: rate.askPrice}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
+    console.log('sell==>', res.data);
   }
   return (
     <>
@@ -51,15 +85,15 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
                     </select>
                   </div>
                   <div className="form-row" style={{marginTop:'34px'}}>
-                    <label htmlFor="orderValue" className="text-white pl-2">Order Value</label>
+                    <label htmlFor="orderValue" className="text-white pl-2">Margin</label>
                     <div className="input-group">
                       <input
                         type="number"
                         id="orderValue"
                         className="form-control"
                         placeholder="Amount"
-                        readOnly
-                        required
+                        value={orderValue}
+                        onChange={(e) => {setOrderValue(e.target.value)}}
                       />
                       <div className="input-group-append">
                         <span className="input-group-text">USD</span>
@@ -74,8 +108,8 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
                         id="orderTime"
                         className="form-control"
                         placeholder="Amount"
-                        readOnly
-                        required
+                        value={orderTime}
+                        onChange={(e) => {setOrderTime(e.target.value)}}
                       />
                       <div className="input-group-append">
                         <span className="input-group-text">Sec</span>
@@ -92,7 +126,6 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
                         placeholder="Amount"
                         readOnly
                         value="5000"
-                        required
                       />
                       <div className="input-group-append">
                         <span className="input-group-text">USD</span>
@@ -126,10 +159,10 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
                     </div>
                   </div> */}
                   <div className="row mt15">
-                    <button type="submit" className="btn buy" onClick={orderBuy}>
+                    <button type="submit" className="btn buy" onClick={()=> {orderBuy()}}>
                       Buy
                     </button>
-                    <button type="submit" className="btn sell" onClick={orderSell}>
+                    <button type="submit" className="btn sell" onClick={()=> {orderSell()}}>
                       Sell
                     </button>
                   </div>                  
@@ -141,3 +174,13 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
     </>
   );
 }
+
+MarketTrade.propTypes = {
+  createContract: PropTypes.func.isRequired
+};
+
+export default connect(
+  null, {createContract}
+  )(MarketTrade);
+
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import HistoryOrder from '../components/HistoryOrder';
-import MarketHistory from '../components/MarketHistory';
+import HistoryOrder from '../components/marketHistory/HistoryOrder';
+import MarketHistory from '../components/marketHistory/MarketHistory';
 // import MarketNews from '../components/MarketNews';
 import MarketPairs from '../components/MarketPairs';
 import MarketTrade from '../components/MarketTrade';
@@ -73,9 +73,7 @@ const Exchange = () => {
   }
 
   useEffect(() => {
-
     getEthDataFromApi()
-
     const interval = setInterval(() => {
       getEthDataFromApi()
      },1000)
@@ -95,10 +93,10 @@ const Exchange = () => {
               <TradingChart symbol={tab} />          
             </div>
             <div className="col-md-2" style={{height:'800px', overflowY:'auto'}}>
-              <MarketTrade symbol={tab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc}/>
+              <MarketTrade symbol={tab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc} />
             </div>
             <div className="col-md-10">
-              <HistoryOrder />
+              <HistoryOrder symbol={tab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc} />
             </div>
             <div className="col-md-2">
               <MarketHistory />
