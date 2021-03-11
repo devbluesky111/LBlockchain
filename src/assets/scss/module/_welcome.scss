@@ -1,0 +1,117 @@
+.welcome {
+    background-color: #212529;
+}
+.welcome .banner{
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    margin-bottom: -160px;
+}
+
+.welcome .banner .title {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    color: rgb(211, 208, 208);
+    font-size: 2.5rem;
+}
+.welcome .banner .title .main {
+    text-align: center;
+    color: rgb(211, 208, 208);
+}
+.welcome .banner .title .sub {
+    font-size: 1.5rem;
+    text-align: center;
+    color: rgb(167, 161, 161);
+}
+.welcome .banner .register_guide {
+    display: flex;
+    justify-content: center;
+    color: whitesmoke;
+    margin-top: 80px;
+    font-size: 2.5rem;
+}
+.welcome .about {
+    display: flex;
+    color: #FFFFFF;
+    justify-content: center;
+    padding: 50px;
+}
+.welcome .about .title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.welcome .about .content {
+    font-size: 1.3rem;
+    color: #e6e6e6;
+    margin-bottom: 20px;
+}
+.welcome .faq {
+    display: flex;
+    color: #FFFFFF;
+    justify-content: center;
+    padding: 50px;
+}
+.welcome .faq .title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.welcome .faq .content .question {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+.welcome .faq .content .answer {
+    font-size: 1.2rem;
+    color: #e6e6e6;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.welcome .contact {
+    display: flex;
+    color: #FFFFFF;
+    justify-content: center;
+    padding: 50px;
+}
+.welcome .contact .title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+.welcome .contact .content {
+    font-size: 1.3rem;
+    color: #e6e6e6;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+// .settings .card {
+//     box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 14px -6px;
+//     border-radius: 5px;
+//     border: none;
+//     margin-bottom: 15px;
+//   }
+  
+//   .settings-nav {
+//     box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 14px -6px;
+//     border-radius: 5px;
+//   }
+//   .settings-nav .nav-item {
+//     width: 100%;
+//   }
+//   .settings-nav .nav-link {
+//     border-radius: 0;
+//     text-transform: uppercase;
+//     color: #18214d;
+//     font-weight: 600;
+//     margin: 2px 0;
+//     padding: 10px 20px;
+//   }
+//   .settings-nav .nav-link i {
+//     margin-right: 10px;
+//   }
+//   .wallet .settings-nav .nav-link i {
+//     margin-right: 5px;
+//   }

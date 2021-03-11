@@ -38,6 +38,11 @@
     height: 274px;
   }
 }
+@media only screen and (max-width: 918px) {
+  .history-order tbody {
+    height: 274px;
+  }
+}
 @media only screen and (max-width: 792px) {
   .market-pairs tbody {
     height: 699px;
