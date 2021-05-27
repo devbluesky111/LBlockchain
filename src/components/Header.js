@@ -1,42 +1,30 @@
-import React, { Component } from 'react';
-import { Navbar, Nav, NavDropdown, Dropdown, Button } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Navbar, Nav, Dropdown } from 'react-bootstrap';
+// import { NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { ThemeConsumer } from '../context/ThemeContext';
-export default class Header extends Component {
-  componentDidMount() {
-    let el = document.querySelector('#darkTheme');
-    if (el) {
-      el.addEventListener('click', function () {
-        document.body.classList.toggle('dark');
-      });
-    }
-  }
-  render() {
+
+const Header = () => {
+    useEffect(() => {
+      document.body.classList.add('dark');
+    }, []);
+
     return (
       <>
         <header className="light-bb">
           <Navbar expand="lg">
             <Link className="navbar-brand" to="/">
-              <ThemeConsumer>
-                {({ data }) => {
-                  return data.theme === 'light' ? (
-                    <img src={'img/logo-dark.svg'} alt="logo" />
-                  ) : (
-                    <img src={'img/logo-light.svg'} alt="logo" />
-                  );
-                }}
-              </ThemeConsumer>
+                <img src={'img/Logo5.svg'} alt="logo" />
             </Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="navbar-nav mr-auto">
                 <Link to="/" className="nav-link">
-                  Exchange
+                  HyperTrading
                 </Link>
                 <Link to="/markets" className="nav-link">
-                  Markets
+                  About Us
                 </Link>
-                <NavDropdown title="Dashboard">
+                {/* <NavDropdown title="Dashboard">
                   <Link to="/profile" className="dropdown-item">
                     Profile
                   </Link>
@@ -69,21 +57,10 @@ export default class Header extends Component {
                   <Link to="/notfound" className="dropdown-item">
                     404
                   </Link>
-                </NavDropdown>
+                </NavDropdown> */}
               </Nav>
               <Nav className="navbar-nav ml-auto">
                 <Dropdown className="header-custom-icon">
-                  <ThemeConsumer>
-                    {({ data, update }) => (
-                      <Button variant="default" onClick={update} id="darkTheme">
-                        {data.theme === 'light' ? (
-                          <i className="icon ion-md-moon"></i>
-                        ) : (
-                          <i className="icon ion-md-sunny"></i>
-                        )}
-                      </Button>
-                    )}
-                  </ThemeConsumer>
                   <Dropdown.Toggle variant="default">
                     <i className="icon ion-md-notifications"></i>
                     <span className="circle-pulse"></span>
@@ -201,5 +178,6 @@ export default class Header extends Component {
         </header>
       </>
     );
-  }
 }
+
+export default Header;

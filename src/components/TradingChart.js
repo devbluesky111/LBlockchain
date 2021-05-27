@@ -7,9 +7,10 @@ export default function TradingChart() {
       <div className="main-chart mb15">
         <TradingViewWidget
           symbol="BITSTAMP:BTCUSD"
-          theme={Themes.LIGHT}
+          theme={Themes.DARK}
           locale="fr"
-          autosize
+          width="100%"
+          height="800px"
         />
       </div>
     </>
