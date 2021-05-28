@@ -2,456 +2,114 @@ import React from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 
 export default function MarketTrade() {
+
+  const orderBuy = () => {
+    console.log('Buy button clicked');
+  }
+  const orderSell = () => {
+    console.log('Sell button clicked');
+  }
   return (
     <>
       <div className="market-trade">
-        <Tabs defaultActiveKey="limit">
-          <Tab eventKey="limit" title="Limit">
+        <Tabs defaultActiveKey="trade">
+          <Tab eventKey="trade" title="Trade">
             <div className="d-flex justify-content-between">
-              <div className="market-trade-buy">
                 <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
+                  <div className="form-row mt20">
+                    <select
+                      id="selectCurrency"
+                      className="custom-select"
+                      style={{textAlign:'center'}}
+                    >
+                      <option defaultValue>BNB Account</option>
+                      <option>BTC Account</option>
+                    </select>
+                  </div>
+                  <div className="form-row" style={{marginTop:'34px'}}>
+                    <label htmlFor="orderValue" className="text-white pl-2">Order Value</label>
+                    <div className="input-group">
+                      <input
+                        type="number"
+                        id="orderValue"
+                        className="form-control"
+                        placeholder="Amount"
+                        readOnly
+                        required
+                      />
+                      <div className="input-group-append">
+                        <span className="input-group-text">BNB</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
+                  <div className="form-row mt20">
+                    <label htmlFor="orderTime" className="text-white pl-2">Order Time</label>
+                    <div className="input-group">
+                      <input
+                        type="number"
+                        id="orderTime"
+                        className="form-control"
+                        placeholder="Amount"
+                        readOnly
+                        required
+                      />
+                      <div className="input-group-append">
+                        <span className="input-group-text">Sec</span>
+                      </div>
                     </div>
                   </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button type="submit" className="btn buy">
-                    Buy
-                  </button>
+                  <div className="form-row mt20">
+                    <label htmlFor="availableValue" className="text-white pl-2">Available Value</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        id="availableValue"
+                        className="form-control"
+                        placeholder="Amount"
+                        readOnly
+                        value="5"
+                        required
+                      />
+                      <div className="input-group-append">
+                        <span className="input-group-text">BNB</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-row mt20">
+                    <label htmlFor="currentRate" className="text-white pl-2">Current Rate -- (USDT/BNB)</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        id="currentRate"
+                        className="form-control"
+                        placeholder="Amount"
+                        readOnly
+                        value="0.020255"
+                        required
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="form-row">
+                    <label className="text-white">Test</label>
+                    <div className="input-group">
+                      <input type="text" list="cars" />
+                      <datalist id="cars">
+                        <option>1 min</option>
+                        <option>5 min</option>
+                        <option>10 min</option>
+                        <option>20 min</option>
+                      </datalist>
+                    </div>
+                  </div> */}
+                  <div className="row mt15">
+                    <button type="submit" className="btn buy" onClick={orderBuy}>
+                      Buy
+                    </button>
+                    <button type="submit" className="btn sell" onClick={orderSell}>
+                      Sell
+                    </button>
+                  </div>                  
                 </form>
-              </div>
-              <div className="market-trade-sell">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button className="btn sell">Sell</button>
-                </form>
-              </div>
-            </div>
-          </Tab>
-          <Tab eventKey="market" title="Market">
-            <div className="d-flex justify-content-between">
-              <div className="market-trade-buy">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button type="submit" className="btn buy">
-                    Buy
-                  </button>
-                </form>
-              </div>
-              <div className="market-trade-sell">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button className="btn sell">Sell</button>
-                </form>
-              </div>
-            </div>
-          </Tab>
-          <Tab eventKey="stop-limit" title="Stop Limit">
-            <div className="d-flex justify-content-between">
-              <div className="market-trade-buy">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button type="submit" className="btn buy">
-                    Buy
-                  </button>
-                </form>
-              </div>
-              <div className="market-trade-sell">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button className="btn sell">Sell</button>
-                </form>
-              </div>
-            </div>
-          </Tab>
-          <Tab eventKey="stop-market" title="Stop Market">
-            <div className="d-flex justify-content-between">
-              <div className="market-trade-buy">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button type="submit" className="btn buy">
-                    Buy
-                  </button>
-                </form>
-              </div>
-              <div className="market-trade-sell">
-                <form action="#">
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Price"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">BTC</span>
-                    </div>
-                  </div>
-                  <div className="input-group">
-                    <input
-                      type="number"
-                      className="form-control"
-                      placeholder="Amount"
-                      required
-                    />
-                    <div className="input-group-append">
-                      <span className="input-group-text">ETH</span>
-                    </div>
-                  </div>
-                  <ul className="market-trade-list">
-                    <li>
-                      <a href="#!">25%</a>
-                    </li>
-                    <li>
-                      <a href="#!">50%</a>
-                    </li>
-                    <li>
-                      <a href="#!">75%</a>
-                    </li>
-                    <li>
-                      <a href="#!">100%</a>
-                    </li>
-                  </ul>
-                  <p>
-                    Available: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Volume: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Margin: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <p>
-                    Fee: <span>0 BTC = 0 USD</span>
-                  </p>
-                  <button className="btn sell">Sell</button>
-                </form>
-              </div>
             </div>
           </Tab>
         </Tabs>

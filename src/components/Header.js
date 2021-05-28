@@ -60,6 +60,15 @@ const Header = () => {
                 </NavDropdown> */}
               </Nav>
               <Nav className="navbar-nav ml-auto">
+                <div style={{color:'#FFF', verticalAlign:'middle', textAlign:'center', margin:'auto', marginRight:'20px'}} >
+                  Balance : 30 BNB
+                </div>
+                <button type="button" className="btn transaction" style={{color:'#FFF', backgroundColor: '#1bb655', marginRight:'20px'}}>
+                  Deposit
+                </button>
+                <button type="button" className="btn transaction" style={{color:'#FFF', backgroundColor: '#c8960e'}}>
+                  Withdraw
+                </button>
                 <Dropdown className="header-custom-icon">
                   <Dropdown.Toggle variant="default">
                     <i className="icon ion-md-notifications"></i>
