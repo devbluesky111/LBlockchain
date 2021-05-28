@@ -132,6 +132,25 @@
 .dark .market-history .nav-link {
   color: #4f5966;
 }
+.dark .market-history button {
+  min-width: 58px;
+  height: 26px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  background: #3c6ff2;
+  border-radius: 2px;
+  line-height: 26px;
+  text-align: center;
+  border: none;
+  cursor: pointer
+}
+.dark .market-history button:disabled {
+  color: hsla(0,0%,100%,.25);
+  background: hsla(0,0%,100%,.08);
+  border: 1px solid hsla(0,0%,100%,.2);
+  cursor: not-allowed;
+}
 .dark .red-bg-80:after,
 .dark .red-bg-60:after,
 .dark .red-bg-40:after,
@@ -183,6 +202,16 @@
 .dark .market-trade input {
   border: 1px solid #2a2e39;
   background: #2a2e39;
+  color: #ffffff;
+}
+.dark .market-trade .input-group-text {
+  background: #2a2e39;
+  color: #ffffff;
+  border-color: #2a2e39;
+}
+.dark .market-trade select {
+  background-color: #2a2e39;
+  border: 1px solid #2a2e39 !important;
   color: #ffffff;
 }
 .dark .market-trade .input-group-text {
