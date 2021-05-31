@@ -61,13 +61,13 @@ const Header = () => {
               </Nav>
               <Nav className="navbar-nav ml-auto">
                 <div style={{color:'#FFF', verticalAlign:'middle', textAlign:'center', margin:'auto', marginRight:'20px'}} >
-                  Balance : 30 BNB
+                  Balance : 30000 USD
                 </div>
                 <button type="button" className="btn transaction" style={{color:'#FFF', backgroundColor: '#1bb655', marginRight:'20px'}}>
-                  Deposit
+                  <i className="fas fa-coins mr-1 text-white"></i>Deposit
                 </button>
                 <button type="button" className="btn transaction" style={{color:'#FFF', backgroundColor: '#c8960e'}}>
-                  Withdraw
+                  <i className="fas fa-coins mr-1 text-white"></i>Withdraw
                 </button>
                 <Dropdown className="header-custom-icon">
                   <Dropdown.Toggle variant="default">
