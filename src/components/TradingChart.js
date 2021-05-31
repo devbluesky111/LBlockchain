@@ -1,12 +1,12 @@
 import React from 'react';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 
-export default function TradingChart() {
+export default function TradingChart({symbol}) {
   return (
     <>
       <div className="main-chart mb15">
         <TradingViewWidget
-          symbol="BITMEX:XBTUSD"
+          symbol={symbol}
           theme={Themes.DARK}
           width="100%"
           height="800"
