@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 
-export default function MarketTrade() {
+export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
+
+  const [rate, setRate] = useState({askPrice:'', priceChangePercent:''});
+  useEffect(() => {
+    switch (symbol) {
+      case 'BINANCE:BTCUSD':
+        setRate(btc);
+        break;
+      case 'BINANCE:ETHUSD':
+        setRate(eth);
+        break;
+      case 'BINANCE:XRPUSD':
+        setRate(xrp);
+        break;
+      case 'BINANCE:DOGEUSD':
+        setRate(doge);
+        break;
+      case 'BINANCE:LINKUSD':
+        setRate(link);
+        break;    
+      default:
+        setRate(ltc);
+        break;
+    }
+  }, [symbol, btc, eth, xrp, doge, link, ltc]);
 
   const orderBuy = () => {
     console.log('Buy button clicked');
@@ -38,7 +62,7 @@ export default function MarketTrade() {
                         required
                       />
                       <div className="input-group-append">
-                        <span className="input-group-text">BNB</span>
+                        <span className="input-group-text">USD</span>
                       </div>
                     </div>
                   </div>
@@ -71,12 +95,12 @@ export default function MarketTrade() {
                         required
                       />
                       <div className="input-group-append">
-                        <span className="input-group-text">BNB</span>
+                        <span className="input-group-text">USD</span>
                       </div>
                     </div>
                   </div>
                   <div className="form-row mt20">
-                    <label htmlFor="currentRate" className="text-white pl-2">Current Rate -- (USDT/BNB)</label>
+                    <label htmlFor="currentRate" className="text-white pl-2">Current Price -- ( {symbol.split(':')[1]} )</label>
                     <div className="input-group">
                       <input
                         type="text"
@@ -84,7 +108,7 @@ export default function MarketTrade() {
                         className="form-control"
                         placeholder="Amount"
                         readOnly
-                        value="0.020255"
+                        value={rate.askPrice}
                         required
                       />
                     </div>
