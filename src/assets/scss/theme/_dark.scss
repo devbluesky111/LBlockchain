@@ -1,6 +1,8 @@
-.dark,
-.dark header {
+.dark {
   background: #131722;
+}
+.dark header {
+  background: #242a37;
 }
 .dark .light-bb,
 .dark .input-group-text,
@@ -26,12 +28,18 @@
 .dark header nav .nav-item.active a {
   color: #007bff;
 }
+.dark .market-pairs .market-pairs-header{
+  color: #ffffff;
+  padding: 20px 14px;
+  border: 1px solid #2a2e39;
+  background: #242a37;
+}
 .dark .market-pairs {
   border: 1px solid #2a2e39;
-  background: #131722;
+  background: #242a37;
 }
 .dark tr {
-  background: #131722;
+  background: #242a37;
 }
 .dark .market-pairs .table td,
 .dark .market-pairs .table th {
@@ -105,15 +113,15 @@
   border-bottom: 1px solid #2a2e39 !important;
 }
 .dark .ob-heading tr:hover {
-  background: #131722;
+  background: #242a37;
   cursor: default;
 }
 .dark .ob-heading span {
   color: #4f5966;
 }
 .dark .dropdown-menu {
-  background: #131722;
-  box-shadow: 0 0 10px 0 #131722;
+  background: #242a37;
+  box-shadow: 0 0 10px 0 #242a37;
   border: 1px solid #2a2e39;
 }
 .dark .dropdown-item:focus,
@@ -130,6 +138,25 @@
 .dark .market-history .nav-link {
   color: #4f5966;
 }
+.dark .market-history button {
+  min-width: 58px;
+  height: 26px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  background: #3c6ff2;
+  border-radius: 2px;
+  line-height: 26px;
+  text-align: center;
+  border: none;
+  cursor: pointer
+}
+.dark .market-history button:disabled {
+  color: hsla(0,0%,100%,.25);
+  background: hsla(0,0%,100%,.08);
+  border: 1px solid hsla(0,0%,100%,.2);
+  cursor: not-allowed;
+}
 .dark .red-bg-80:after,
 .dark .red-bg-60:after,
 .dark .red-bg-40:after,
@@ -141,7 +168,7 @@
   background: #ff231f63;
 }
 .dark .market-news {
-  background: #131722;
+  background: #242a37;
 }
 .dark .market-news li {
   border-bottom: 1px solid #2a2e39;
@@ -154,7 +181,7 @@
   color: #c5cbce;
 }
 .dark .market-order {
-  background: #131722;
+  background: #242a37;
 }
 .dark .no-data i,
 .dark .no-data {
@@ -162,7 +189,7 @@
 }
 .dark .market-trade {
   border: 1px solid #2a2e39;
-  background: #131722;
+  background: #242a37;
 }
 .dark .market-trade .nav .nav-item .nav-link.active {
   background: transparent;
@@ -188,6 +215,16 @@
   color: #ffffff;
   border-color: #2a2e39;
 }
+.dark .market-trade select {
+  background-color: #2a2e39;
+  border: 1px solid #2a2e39 !important;
+  color: #ffffff;
+}
+.dark .market-trade .input-group-text {
+  background: #2a2e39;
+  color: #ffffff;
+  border-color: #2a2e39;
+}
 .dark .market-trade-buy .market-trade-list li a:hover {
   background: #26de81;
   color: #fff;
@@ -197,10 +234,10 @@
   color: #fff;
 }
 .dark #darkDepthChart {
-  background: #131722;
+  background: #242a37;
 }
 .dark .markets {
-  background: #131722;
+  background: #242a37;
 }
 .dark .table td,
 .dark table th {
@@ -255,7 +292,7 @@
 }
 
 .dark .dropdown-menu::before {
-  background: #131722;
+  background: #242a37;
   border-top: 1px solid #2a2e39;
   border-left: 1px solid #2a2e39;
 }
@@ -286,7 +323,7 @@
   padding: 30px;
   border-radius: 5px;
   min-width: 350px;
-  box-shadow: 0 0 10px 0 #131722;
+  box-shadow: 0 0 10px 0 #242a37;
   border: 1px solid #2a2e39;
 }
 .dark .form-access h2,
@@ -353,7 +390,7 @@
 }
 
 .dark .markets-capital-item {
-  box-shadow: 0 0 10px 0 #131722;
+  box-shadow: 0 0 10px 0 #242a37;
   border: 1px solid #2a2e39;
 }
 

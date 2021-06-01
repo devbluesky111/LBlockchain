@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
-import { ThemeConsumer } from '../context/ThemeContext';
 export default function wallet() {
   return (
     <>
@@ -460,21 +459,10 @@ export default function wallet() {
                                       </div>
                                     </div>
                                     <div className="col-md-4">
-                                      <ThemeConsumer>
-                                        {({ data }) => {
-                                          return data.theme === 'light' ? (
-                                            <img
-                                              src={'img/qr-code-dark.svg'}
-                                              alt="qr-code"
-                                            />
-                                          ) : (
-                                            <img
-                                              src={'img/qr-code-light.svg'}
-                                              alt="qr-code"
-                                            />
-                                          );
-                                        }}
-                                      </ThemeConsumer>
+                                        <img
+                                          src={'img/qr-code-dark.svg'}
+                                          alt="qr-code"
+                                        />
                                     </div>
                                   </div>
                                 </div>
