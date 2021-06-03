@@ -7,6 +7,7 @@ import Profile from './profile';
 import Wallet from './wallet';
 import Settings from './settings';
 import Login from './login';
+import ForgetPassword from './forgetPasword';
 import Reset from './reset';
 import OtpVerify from './otp-verify';
 import OtpNumber from './otp-number';
@@ -44,6 +45,9 @@ export default function index() {
           </Route>
           <Route path="/reset">
             <Reset />
+          </Route>
+          <Route path="/forget-password">
+            <ForgetPassword />
           </Route>
           <Route path="/otp-verify">
             <OtpVerify />

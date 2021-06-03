@@ -13,15 +13,13 @@ export default function signup() {
                 type="text"
                 className="form-control"
                 placeholder="Full Name"
-                required
               />
             </div>
             <div className="form-group">
               <input
-                type="email"
+                type="text"
                 className="form-control"
-                placeholder="Email Address"
-                required
+                placeholder="Wallet Address"
               />
             </div>
             <div className="form-group">
@@ -29,7 +27,6 @@ export default function signup() {
                 type="password"
                 className="form-control"
                 placeholder="Password"
-                required
               />
             </div>
             <div className="form-group">
@@ -37,7 +34,6 @@ export default function signup() {
                 type="password"
                 className="form-control"
                 placeholder="Confirm Password"
-                required
               />
             </div>
             <div className="custom-control custom-checkbox">
@@ -45,7 +41,6 @@ export default function signup() {
                 type="checkbox"
                 className="custom-control-input"
                 id="form-checkbox"
-                required
               />
               <label className="custom-control-label" htmlFor="form-checkbox">
                 I agree to the{' '}

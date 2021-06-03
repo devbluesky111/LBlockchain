@@ -10,24 +10,32 @@ export default function login() {
             <span>Sign In</span>
             <div className="form-group">
               <input
-                type="email"
-                className="form-control"
-                placeholder="Email Address"
+                type="text"
+                className="form-control text-white"
+                placeholder="User Name"
                 required
               />
             </div>
+            {/* <div className="form-group">
+              <input
+                type="text"
+                className="form-control text-white"
+                placeholder="Wallet Address"
+                required
+              />
+            </div> */}
             <div className="form-group">
               <input
                 type="password"
-                className="form-control"
+                className="form-control text-white"
                 placeholder="Password"
                 required
               />
             </div>
             <div className="text-right">
-              <Link to="/reset">Forgot Password?</Link>
+              <Link to="/forget-password">Forgot Password?</Link>
             </div>
-            <div className="custom-control custom-checkbox">
+            {/* <div className="custom-control custom-checkbox">
               <input
                 type="checkbox"
                 className="custom-control-input"
@@ -36,7 +44,7 @@ export default function login() {
               <label className="custom-control-label" htmlFor="form-checkbox">
                 Remember me
               </label>
-            </div>
+            </div> */}
             <button type="submit" className="btn btn-primary">
               Sign In
             </button>
