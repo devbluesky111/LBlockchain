@@ -27,8 +27,8 @@
   margin-right: 5px;
 }
 .settings .card-title {
-  font-size: 16px;
-  margin-bottom: 30px;
+  font-size: 20px;
+  margin-bottom: 5px;
 }
 
 .settings-profile .col-md-6 {
@@ -233,4 +233,26 @@
 }
 .wallet-history {
   overflow-x: auto;
+}
+
+.wallet select {
+  background-color: #2a2e39;
+  border: 1px solid #2a2e39 !important;
+  color: #ffffff;
+}
+.wallet .address-button {
+  background-color: transparent;
+  border-radius: 5px;
+  color: #FFF;
+  border: 1px solid #FFF;
+  padding: 10px 25px!important;
+}
+.wallet .withdraw-button {
+  margin-top: 55px;
+  border-radius: 5px;
+  border: 0px solid #FFF;
+  background: #26de81;
+  color: #ffffff;
+  box-shadow: 0px 0px 15px 0px #26de81ad;
+  width: 100%!important;
 }

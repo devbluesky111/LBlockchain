@@ -1,3 +1,6 @@
+h1, h2, h3, h4, h5, h6 {
+  color: #FFF;
+}
 .dark {
   background: #131722;
 }
@@ -322,7 +325,7 @@
 .dark .form-access form {
   padding: 30px;
   border-radius: 5px;
-  min-width: 350px;
+  min-width: 40rem;
   box-shadow: 0 0 10px 0 #242a37;
   border: 1px solid #2a2e39;
 }
@@ -454,3 +457,10 @@
 .dark .page-content {
   color: #fff;
 }
+
+.myhr {
+  background-color: #2a2e39;
+  margin-top: -10px;
+  // border-bottom: 1px solid #2a2e39;
+}
+
