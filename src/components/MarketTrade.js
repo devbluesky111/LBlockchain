@@ -91,7 +91,7 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
                         className="form-control"
                         placeholder="Amount"
                         readOnly
-                        value="5"
+                        value="5000"
                         required
                       />
                       <div className="input-group-append">
@@ -100,7 +100,7 @@ export default function MarketTrade({symbol, btc, eth, xrp, doge, link, ltc}) {
                     </div>
                   </div>
                   <div className="form-row mt20">
-                    <label htmlFor="currentRate" className="text-white pl-2">Current Price -- ( {symbol.split(':')[1]} )</label>
+                    <label htmlFor="currentRate" className="text-white pl-2">Current Price &nbsp;&nbsp; ( {symbol.split(':')[1]} )</label>
                     <div className="input-group">
                       <input
                         type="text"

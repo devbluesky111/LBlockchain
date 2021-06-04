@@ -2,8 +2,14 @@ import React, { useEffect } from 'react';
 import { Navbar, Nav, Dropdown } from 'react-bootstrap';
 // import { NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+// import DepositModal from './DepositModal';
+// import WithdrawModal from './WithdrawModal';
 
 const Header = () => {
+
+    // const [depositModalShow, setDepositModalShow] = useState(false);
+    // const [withdrawModalShow, setWithdrawModalShow] = useState(false);
+
     useEffect(() => {
       document.body.classList.add('dark');
     }, []);
@@ -21,7 +27,7 @@ const Header = () => {
                 <Link to="/" className="nav-link">
                   HyperTrading
                 </Link>
-                <Link to="/markets" className="nav-link">
+                <Link to="#" className="nav-link">
                   About Us
                 </Link>
                 {/* <NavDropdown title="Dashboard">
@@ -63,12 +69,12 @@ const Header = () => {
                 <div style={{color:'#FFF', verticalAlign:'middle', textAlign:'center', margin:'auto', marginRight:'20px'}} >
                   Balance : 30000 USD
                 </div>
-                <button type="button" className="btn transaction" style={{color:'#FFF', backgroundColor: '#1bb655', marginRight:'20px'}}>
-                  <i className="fas fa-coins mr-1 text-white"></i>Deposit
-                </button>
-                <button type="button" className="btn transaction" style={{color:'#FFF', backgroundColor: '#c8960e'}}>
-                  <i className="fas fa-coins mr-1 text-white"></i>Withdraw
-                </button>
+                <Link to="/wallet" className="nav-link">
+                  <button type="button" className="btn transaction"
+                    style={{color:'#FFF', backgroundColor: '#1bb655', marginRight:'20px'}}>
+                      <i className="fas fa-coins mr-1 text-white"></i>Deposit/Withdraw
+                  </button>
+                </Link>
                 <Dropdown className="header-custom-icon">
                   <Dropdown.Toggle variant="default">
                     <i className="icon ion-md-notifications"></i>
@@ -185,6 +191,14 @@ const Header = () => {
             </Navbar.Collapse>
           </Navbar>
         </header>
+        {/* <DepositModal
+          show={depositModalShow}
+          onHide={() => setDepositModalShow(false)}
+        />
+        <WithdrawModal
+          show={withdrawModalShow}
+          onHide={() => setWithdrawModalShow(false)}
+        /> */}
       </>
     );
 }
