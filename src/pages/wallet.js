@@ -1,6 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
-export default function wallet() {
+import Backend from './../@utils/BackendUrl';
+import axios from 'axios';
+
+const Wallet = () => {
+  const [chargeAddress, setChargeAddress] = useState();
+  const [withdrawAmount, setWithdrawAmount] = useState();
+
+  const init = async () => {
+    console.log('wallet page loaded');
+		const res = await axios.get(Backend.URL + '/api/wallets', { withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
+		setChargeAddress(res.data);
+	}
+
+	useEffect(() => {
+		init();
+	}, []);
+
+  const depositMoney = async () => {
+    const deposit_money = 1000;
+    const res = await axios.post(Backend.URL + '/api/wallets/deposit', {data: deposit_money}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
+    console.log('deposit==>', res);
+  }
+
+  const withdrawMoney = async () => {
+    console.log('withdraw amount==>', withdrawAmount);
+    const res = await axios.post(Backend.URL + '/api/wallets/withdraw', {data: withdrawAmount}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
+    console.log('withdraw==>', res);
+  }
+
+  console.log('charge_address===>',chargeAddress);
   return (
     <>
       <div className="settings mtb15">
@@ -119,7 +148,7 @@ export default function wallet() {
                       eventKey="wallet_XMR"
                       className="d-flex justify-content-between align-items-center"
                     >
-                      <div className="d-flex">
+                      <div className="d-flex" onClick={()=>{depositMoney()}}>
                         <img src={'img/icon/7.png'} alt="btc" />
                         <div>
                           <h2>XMR</h2>
@@ -289,7 +318,9 @@ export default function wallet() {
                                     <label htmlFor="addresss-withdraw">Address</label>
                                     <input
                                       id="addresss-withdraw"
-                                      className="custom-select"
+                                      className="custom-select text-white"
+                                      value="Ad87deD4gEe8dG57Ede4eEg5dREs4d5e8f4e"
+                                      readOnly
                                     />
                                   </div>
                                   <div className="mt-3">
@@ -297,6 +328,8 @@ export default function wallet() {
                                     <input
                                       id="amount-withdraw"
                                       className="custom-select"
+                                      value={withdrawAmount}
+                                      onChange={(e)=> {setWithdrawAmount(e.target.value)}}
                                     />
                                   </div>
                                 </div>
@@ -326,7 +359,7 @@ export default function wallet() {
                                       readOnly
                                     />
                                   </div>
-                                  <button type="submit" className="withdraw-button">Submit</button>     
+                                  <button type="submit" className="withdraw-button" onClick={()=> {withdrawMoney()}}>Submit</button>     
                                 </div>
                               </div>
                             </Tab.Pane>
@@ -405,3 +438,5 @@ export default function wallet() {
     </>
   );
 }
+
+export default Wallet;
