@@ -8,8 +8,6 @@ import './assets/css/ionicons.min.css';
 import './assets/scss/style.scss';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
