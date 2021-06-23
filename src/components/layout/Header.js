@@ -1,14 +1,9 @@
 import React, { useEffect } from 'react';
 import { Navbar, Nav, Dropdown } from 'react-bootstrap';
-// import { NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-// import DepositModal from './DepositModal';
-// import WithdrawModal from './WithdrawModal';
+// import MetaMaskButton from './../MetaMaskButton';
 
 const Header = () => {
-
-    // const [depositModalShow, setDepositModalShow] = useState(false);
-    // const [withdrawModalShow, setWithdrawModalShow] = useState(false);
 
     useEffect(() => {
       document.body.classList.add('dark');
@@ -30,43 +25,10 @@ const Header = () => {
                 <Link to="#" className="nav-link">
                   About Us
                 </Link>
-                {/* <NavDropdown title="Dashboard">
-                  <Link to="/profile" className="dropdown-item">
-                    Profile
-                  </Link>
-                  <Link to="/wallet" className="dropdown-item">
-                    Wallet
-                  </Link>
-                  <Link to="/settings" className="dropdown-item">
-                    Settings
-                  </Link>
-                </NavDropdown>
-                <NavDropdown title="Others">
-                  <Link to="/login" className="dropdown-item">
-                    Login
-                  </Link>
-                  <Link to="/signup" className="dropdown-item">
-                    Sign up
-                  </Link>
-                  <Link to="/lock" className="dropdown-item">
-                    Lock
-                  </Link>
-                  <Link to="/otp-number" className="dropdown-item">
-                    OTP Number
-                  </Link>
-                  <Link to="/otp-verify" className="dropdown-item">
-                    OTP Verify
-                  </Link>
-                  <Link to="/reset" className="dropdown-item">
-                    Reset
-                  </Link>
-                  <Link to="/notfound" className="dropdown-item">
-                    404
-                  </Link>
-                </NavDropdown> */}
               </Nav>
               <Nav className="navbar-nav ml-auto">
-              <Link to="/login" className="nav-link">
+                {/* <MetaMaskButton /> */}
+                <Link to="/login" className="nav-link">
                   <button type="button" className="btn transaction"
                     style={{color:'#FFF', backgroundColor: '#007bff'}}>
                       <i className="fas fa-user-alt mr-1 text-white"></i>Login
@@ -203,14 +165,6 @@ const Header = () => {
             </Navbar.Collapse>
           </Navbar>
         </header>
-        {/* <DepositModal
-          show={depositModalShow}
-          onHide={() => setDepositModalShow(false)}
-        />
-        <WithdrawModal
-          show={withdrawModalShow}
-          onHide={() => setWithdrawModalShow(false)}
-        /> */}
       </>
     );
 }

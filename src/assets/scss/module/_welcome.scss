@@ -59,6 +59,16 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
 }
+.welcome .faq .content {
+    width: 100%;
+    color: #000;
+}
+.welcome .faq .content .card {
+    width: 100%;
+    color: #FFF;
+    background-color: #3a3f44;
+    margin-bottom: 0.5rem;
+}
 .welcome .faq .content .question {
     font-size: 1.3rem;
     margin-bottom: 10px;
@@ -86,32 +96,56 @@
     margin-bottom: 20px;
     text-align: center;
 }
+.welcome .contact .message-box {
+    font-size: 1.3rem;
+    color: #e6e6e6;
+    padding: 1rem;
+    text-align: center;
+}
+.welcome .contact .message-box .message-address {
+    margin-top: 0.5rem;
+    width: 100%;
+}
+.welcome .contact .message-box .message-address .message-name {
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: #292e33;
+    color:rgb(167, 161, 161);
+    border-color:  #292e33;
+}
+.welcome .contact .message-box .message-address .message-email {
+    background-color: #292e33;
+    color:rgb(167, 161, 161);
+    border-color:  #292e33;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+.welcome .contact .message-box .message-content {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: #292e33;
+    color:rgb(167, 161, 161);
+    border-color:  #292e33;
+    width: 100%;
+    height: 10rem;
+    margin-bottom: 1rem;
+}
+.welcome .contact .message-box .message-button {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background-color: #dec429;
+    color:#FFF;
+    border-color: #292e33;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
 
-// .settings .card {
-//     box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 14px -6px;
-//     border-radius: 5px;
-//     border: none;
-//     margin-bottom: 15px;
-//   }
-  
-//   .settings-nav {
-//     box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 14px -6px;
-//     border-radius: 5px;
-//   }
-//   .settings-nav .nav-item {
-//     width: 100%;
-//   }
-//   .settings-nav .nav-link {
-//     border-radius: 0;
-//     text-transform: uppercase;
-//     color: #18214d;
-//     font-weight: 600;
-//     margin: 2px 0;
-//     padding: 10px 20px;
-//   }
-//   .settings-nav .nav-link i {
-//     margin-right: 10px;
-//   }
-//   .wallet .settings-nav .nav-link i {
-//     margin-right: 5px;
-//   }
+@media only screen and (max-width: 768px) {
+    .welcome .contact .message-box .message-address .message-name {
+        width: 100%;
+    }
+    .welcome .contact .message-box .message-address .message-email {
+        width: 100%;
+    }
+  }
