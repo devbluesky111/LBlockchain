@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
 import Backend from './../@utils/BackendUrl';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const Wallet = () => {
+const Wallet = ({auth : {publicAddress}}) => {
   const [chargeAddress, setChargeAddress] = useState();
   const [withdrawAmount, setWithdrawAmount] = useState();
 
@@ -280,7 +282,7 @@ const Wallet = () => {
                                     <input
                                       type="text"
                                       className="form-control"
-                                      value="Ad87deD4gEe8dG57Ede4eEg5dREs4d5e8f4e"
+                                      value={publicAddress}
                                       readOnly
                                     />
                                     <div className="input-group-prepend">
@@ -319,7 +321,7 @@ const Wallet = () => {
                                     <input
                                       id="addresss-withdraw"
                                       className="custom-select text-white"
-                                      value="Ad87deD4gEe8dG57Ede4eEg5dREs4d5e8f4e"
+                                      value={publicAddress}
                                       readOnly
                                     />
                                   </div>
@@ -367,67 +369,6 @@ const Wallet = () => {
                         </Tab.Container>
                       </div>
                     </div>
-                    {/* <div className="card">
-                      <div className="card-body">
-                        <h5 className="card-title">
-                          Latest Transactions
-                                </h5>
-                        <div className="wallet-history">
-                          <table className="table">
-                            <thead>
-                              <tr>
-                                <th>No.</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>25-04-2019</td>
-                                <td>
-                                  <i className="icon ion-md-checkmark-circle-outline green"></i>
-                                </td>
-                                <td>4.5454334</td>
-                              </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>25-05-2019</td>
-                                <td>
-                                  <i className="icon ion-md-checkmark-circle-outline green"></i>
-                                </td>
-                                <td>0.5484468</td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>25-06-2019</td>
-                                <td>
-                                  <i className="icon ion-md-close-circle-outline red"></i>
-                                </td>
-                                <td>2.5454545</td>
-                              </tr>
-                              <tr>
-                                <td>4</td>
-                                <td>25-07-2019</td>
-                                <td>
-                                  <i className="icon ion-md-checkmark-circle-outline green"></i>
-                                </td>
-                                <td>1.45894147</td>
-                              </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>25-08-2019</td>
-                                <td>
-                                  <i className="icon ion-md-close-circle-outline red"></i>
-                                </td>
-                                <td>2.5454545</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </Col>
@@ -439,4 +380,11 @@ const Wallet = () => {
   );
 }
 
-export default Wallet;
+Wallet.propTypes = {
+  auth: PropTypes.object.isRequired
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps)(Wallet);

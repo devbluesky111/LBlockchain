@@ -1,14 +1,106 @@
-import React, { useEffect } from 'react';
-import { Navbar, Nav, Dropdown } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-// import MetaMaskButton from './../MetaMaskButton';
+import React, { useEffect, useState } from 'react';
+import { Navbar, Nav } from 'react-bootstrap';
+// import { Link } from 'react-router-dom';
+import { HashLink as Link } from 'react-router-hash-link';
+// import Web3 from 'web3';
+import Backend from './../../@utils/BackendUrl';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loadUser } from '../../redux/actions/authAction';
 
-const Header = () => {
+  const Header = ({loadUser}) => {
+
+    const [buttonText, setButtonText] = useState('Connect Metamask');
 
     useEffect(() => {
-      document.body.classList.add('dark');
+      document.body.classList.add('dark');      
     }, []);
 
+    const connect = async (e) => {
+      e.preventDefault();
+      const { ethereum } = window
+      if (ethereum && ethereum.isMetaMask) {
+        //Check if chain is set to BSC and change it
+        const chainId = await ethereum.request({ method: 'eth_chainId'})
+        if (chainId !== '0x38') {
+          console.log('you need to change the Chain to BSC')
+        }
+
+        // get active publicAddress
+        const publicAddress = await ethereum.request({ method: 'eth_requestAccounts' })
+        if(publicAddress) {
+          // Check if user with current publicAddress is already present on backend
+          let userData;
+          const res = await axios.get(Backend.URL + `/api/users?publicAddress=${publicAddress}`, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
+          if(res.data) {
+            userData = res.data;
+          } else {
+            const resp = await axios.post(Backend.URL + '/api/users', {publicAddress: publicAddress}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
+            if(resp.data.success === true){
+              userData = resp.data.result;
+            } else {
+              console.log('registration failed')
+            }
+          }
+          console.log('userdata', userData);
+          if(userData) {
+            loadUser(userData);
+            // Change the button text into the wallet address.
+            let buttonText = `${userData.publicAddress.substr(0, 4)}...${userData.publicAddress.substr(-4)}`
+            setButtonText(buttonText)
+            // Handle sign message
+            // await handleSignMessage({publicAddress: res.data.publicAddress, nonce: res.data.nonce})
+            // await handleAuthenticate()
+          }
+        }
+      } else {
+        console.log('MetaMask is not installed yet')
+        if(navigator.userAgent.indexOf("Chrome") !== -1 )
+        {
+          window.open(
+            'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en',
+            '_blank'
+          );
+        }
+        else if(navigator.userAgent.indexOf("Firefox") !== -1 ) 
+        {
+          window.open(
+            'https://addons.mozilla.org/en-US/firefox/addon/ether-metamask',
+            '_blank'
+          );
+        }
+        else 
+        {
+          alert('You need to use Chrome or Firefox for this webpage!');
+        }
+      }
+    }
+
+    // const handleSignMessage = ({ publicAddress, nonce }) => {
+    //   console.log('p--A-->', publicAddress, nonce)
+    //   // const web3 = new Web3(Web3.givenProvider)
+    //   return new Promise((resolve, reject) =>
+    //     window.ethereum.on('chainChanged', (chainId) => {
+    //       /* handle the chainId */
+    //       console.log('chainID', chainId) 
+    //     })
+    //     // web3.personal.sign(
+    //     //   web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
+    //     //   publicAddress,
+    //     //   (err, signature) => {
+    //     //     if (err) return reject(err);
+    //     //     return resolve({ publicAddress, signature });
+    //     //   }
+    //     // )
+    //   );
+    // };
+
+    // const handleAuthenticate = () => {
+    //   console.log('handle authentication');
+    // }
+
+      
     return (
       <>
         <header className="light-bb">
@@ -22,145 +114,31 @@ const Header = () => {
                 <Link to="/trade" className="nav-link">
                   HyperTrading
                 </Link>
-                <Link to="#" className="nav-link">
+                <Link to="/#about_us" className="nav-link">
                   About Us
+                </Link>
+                <Link to="/#faq" className="nav-link">
+                  FAQ
+                </Link>
+                <Link to="/#contact_us" className="nav-link">
+                  Contact Us
                 </Link>
               </Nav>
               <Nav className="navbar-nav ml-auto">
-                {/* <MetaMaskButton /> */}
-                <Link to="/login" className="nav-link">
-                  <button type="button" className="btn transaction"
-                    style={{color:'#FFF', backgroundColor: '#007bff'}}>
-                      <i className="fas fa-user-alt mr-1 text-white"></i>Login
-                  </button>
-                </Link>
-                <Link to="/signup" className="nav-link">
-                  <button type="button" className="btn transaction"
-                    style={{color:'#FFF', backgroundColor: '#007bff', marginRight:'10px'}}>
-                      <i className="fas fa-user-plus mr-1 text-white"></i>Register
-                  </button>
-                </Link>
                 <div style={{color:'#FFF', verticalAlign:'middle', textAlign:'center', margin:'auto', marginRight:'20px'}} >
                   Balance : 30000 USD
-                </div>
+                </div>                
                 <Link to="/wallet" className="nav-link">
                   <button type="button" className="btn transaction"
-                    style={{color:'#FFF', backgroundColor: '#1bb655', marginRight:'20px'}}>
+                    style={{color:'#FFF', backgroundColor: '#1bb655'}}>
                       <i className="fas fa-coins mr-1 text-white"></i>Deposit/Withdraw
                   </button>
                 </Link>
-                <Dropdown className="header-custom-icon">
-                  <Dropdown.Toggle variant="default">
-                    <i className="icon ion-md-notifications"></i>
-                    <span className="circle-pulse"></span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <div className="dropdown-header d-flex align-items-center justify-content-between">
-                      <p className="mb-0 font-weight-medium">
-                        6 New Notifications
-                      </p>
-                      <a href="#!" className="text-muted">
-                        Clear all
-                      </a>
-                    </div>
-                    <div className="dropdown-body">
-                      <a href="#!" className="dropdown-item">
-                        <div className="icon">
-                          <i className="icon ion-md-lock"></i>
-                        </div>
-                        <div className="content">
-                          <p>Account password change</p>
-                          <p className="sub-text text-muted">5 sec ago</p>
-                        </div>
-                      </a>
-                      <a href="#!" className="dropdown-item">
-                        <div className="icon">
-                          <i className="icon ion-md-alert"></i>
-                        </div>
-                        <div className="content">
-                          <p>Solve the security issue</p>
-                          <p className="sub-text text-muted">10 min ago</p>
-                        </div>
-                      </a>
-                      <a href="#!" className="dropdown-item">
-                        <div className="icon">
-                          <i className="icon ion-logo-android"></i>
-                        </div>
-                        <div className="content">
-                          <p>Download android app</p>
-                          <p className="sub-text text-muted">1 hrs ago</p>
-                        </div>
-                      </a>
-                      <a href="#!" className="dropdown-item">
-                        <div className="icon">
-                          <i className="icon ion-logo-bitcoin"></i>
-                        </div>
-                        <div className="content">
-                          <p>Bitcoin price is high now</p>
-                          <p className="sub-text text-muted">2 hrs ago</p>
-                        </div>
-                      </a>
-                      <a href="#!" className="dropdown-item">
-                        <div className="icon">
-                          <i className="icon ion-logo-usd"></i>
-                        </div>
-                        <div className="content">
-                          <p>Payment completed</p>
-                          <p className="sub-text text-muted">4 hrs ago</p>
-                        </div>
-                      </a>
-                    </div>
-                    <div className="dropdown-footer d-flex align-items-center justify-content-center">
-                      <a href="#!">View all</a>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown className="header-img-icon">
-                  <Dropdown.Toggle variant="default">
-                    <img src={'img/avatar.svg'} alt="avatar" />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <div className="dropdown-header d-flex flex-column align-items-center">
-                      <div className="figure mb-3">
-                        <img src={'img/avatar.svg'} alt="" />
-                      </div>
-                      <div className="info text-center">
-                        <p className="name font-weight-bold mb-0">Tony Stark</p>
-                        <p className="email text-muted mb-3">
-                          tonystark@gmail.com
-                        </p>
-                      </div>
-                    </div>
-                    <div className="dropdown-body">
-                      <ul className="profile-nav">
-                        <li className="nav-item">
-                          <Link to="/profile" className="nav-link">
-                            <i className="icon ion-md-person"></i>
-                            <span>Profile</span>
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/wallet" className="nav-link">
-                            <i className="icon ion-md-wallet"></i>
-                            <span>My Wallet</span>
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/settings" className="nav-link">
-                            <i className="icon ion-md-settings"></i>
-                            <span>Settings</span>
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <Link to="/login" className="nav-link red">
-                            <i className="icon ion-md-power"></i>
-                            <span>Log Out</span>
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
+                <button type="button" className="btn transaction"
+                  onClick={connect}
+                  style={{color:'#FFF', backgroundColor: '#007bff'}}>
+                   <img src={'img/metamask.svg'} alt="fox" width="19px" /> {buttonText}
+                </button>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -169,4 +147,8 @@ const Header = () => {
     );
 }
 
-export default Header;
+Header.propTypes = {
+  loadUser: PropTypes.func.isRequired
+};
+
+export default connect(null, {loadUser})(Header);

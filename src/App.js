@@ -7,7 +7,7 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import rootReducer from "./redux/reducers";
-
+import { Web3ReactProvider } from '@web3-react/core'
 const defaultState = {};
 const middleware = [thunk];
 
@@ -15,11 +15,13 @@ const store = createStore(
   rootReducer,
   defaultState,
   composeWithDevTools(applyMiddleware(...middleware))
-  );
+);
 
 const App = () => {
-    return (
-      <>
+
+  return (
+    <>
+      <Web3ReactProvider>
         <Provider store={store}>
           <BrowserRouter>
               <Route component={ScrollToTop} />
@@ -32,8 +34,9 @@ const App = () => {
               </ThemeProvider>
             </BrowserRouter>
         </Provider>
-      </>
-    );
+      </Web3ReactProvider>
+    </>
+  );
 }
 
 const ScrollToTop = () => {

@@ -2,7 +2,6 @@ import React from 'react';
 import MarketCarousel from '../components/MarketCarousel';
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
-// import MetaMaskButton from './../components/MetaMaskButton';
 
 const Welcome = () => {
     
@@ -18,14 +17,13 @@ const Welcome = () => {
                 </div>
               </div>
               <div className="register_guide">
-                {/* <MetaMaskLoginButton /> */}
                 {/* <MetaMaskButton /> */}
               </div>
             </div>
             <MarketCarousel />
           </div>
           <div className="container">
-            <div className="row about">
+            <div className="row about" id="about_us">
               <div className="title">
                 ABOUT US
               </div>
@@ -35,7 +33,7 @@ const Welcome = () => {
                 24 hour liquidity and no-fee, no-KYC(Users only need their Metamask wallet) ensures Hyper give users comfortability!
               </div>
             </div>
-            <div className="row faq">
+            <div className="row faq" id="faq">
               <div className="title">
                 FAQ
               </div>
@@ -125,7 +123,7 @@ const Welcome = () => {
                 </Accordion>
               </div>
             </div>
-            <div className="row contact">
+            <div className="row contact" id="contact_us">
               <div className="title">
                 CONTACT
               </div>
