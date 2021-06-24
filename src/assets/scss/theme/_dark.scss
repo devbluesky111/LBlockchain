@@ -48,15 +48,28 @@ h1, h2, h3, h4, h5, h6 {
 .dark .market-pairs .table th {
   border-top: 1px solid #2a2e39;
 }
+.dark .history-order {
+  height: 398px;
+  background-color: #2a2e39;
+}
+.dark .history-order .table td,
+.dark .history-order .table th,
 .dark .market-history .table td,
 .dark .market-history .table th {
   border-top: 1px solid #2a2e39;
+  text-align: center;
+}
+.dark .history-order .table td,
+.dark .history-order .table th {
+  width: 1%;
+  white-space: nowrap;
 }
 .dark .order-book thead tr {
   border-bottom: 1px solid #2a2e39;
 }
 .dark .order-book,
 .dark .market-history,
+.dark .history-order,
 .dark .market-news {
   border: 1px solid #2a2e39;
 }
@@ -80,11 +93,12 @@ h1, h2, h3, h4, h5, h6 {
   color: #69727a;
 }
 .dark tbody tr {
-  color: #ffffff;
+  color: #f5eeee;
 }
 .dark thead th,
 .dark .market-pairs .nav-link {
-  color: #4f5966;
+  // color: #4f5966;
+  color: #FFFFFf;
 }
 .dark .market-pairs .nav-link.active,
 .dark #STAR i {
@@ -132,16 +146,22 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #2a2e39;
   color: #ffffff;
 }
-.dark .market-history .nav {
+.dark .market-history .nav,
+.dark .history-order .nav {
   background: #1c2030;
 }
-.dark .market-history .nav-link.active {
+.dark .market-history .nav-link.active,
+.dark .history-order .nav-link.active {
   color: #ffffff;
 }
-.dark .market-history .nav-link {
+.dark .market-history .nav-link,
+.dark .history-order .nav-link {
   color: #4f5966;
 }
+.dark .history-order button,
 .dark .market-history button {
+  color: #ffffff;
+  font-size: 1rem;
   min-width: 58px;
   height: 26px;
   margin: 0 auto;
@@ -154,6 +174,7 @@ h1, h2, h3, h4, h5, h6 {
   border: none;
   cursor: pointer
 }
+.dark .history-order button:disabled,
 .dark .market-history button:disabled {
   color: hsla(0,0%,100%,.25);
   background: hsla(0,0%,100%,.08);
@@ -255,7 +276,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dark thead th,
 .dark .markets-pair-list .nav-link {
-  color: #4f5966;
+  color: #758696;
 }
 .dark .markets-pair-list .load-more {
   border: 1px solid #2a2e39;
@@ -463,4 +484,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: -10px;
   // border-bottom: 1px solid #2a2e39;
 }
-
+.history-order table {
+  width: 100%;
+  table-layout: fixed;
+}

@@ -4,7 +4,7 @@ import Backend from './../@utils/BackendUrl';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import { createContract } from "./../redux/actions/action";
+import { createContract } from "./../redux/actions/contractAction";
 
 const MarketTrade = ({ createContract, symbol, btc, eth, xrp, doge, link, ltc}) => {
 

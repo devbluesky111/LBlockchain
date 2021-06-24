@@ -3,7 +3,7 @@ import { Modal, Button, Container, Col, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 import { connect } from 'react-redux';
-import { closeContract } from '../../redux/actions/action';
+import { closeContract } from '../../redux/actions/contractAction';
 
 function CloseModal({ show, onHide, closeContract, contract: {contract, loading}}) {
   const confirmClose = () => {

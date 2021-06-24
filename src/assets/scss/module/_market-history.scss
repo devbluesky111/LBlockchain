@@ -18,6 +18,7 @@
 .market-history tbody {
   height: 315px;
   overflow-y: auto;
+  overflow-x: auto;
   display: block;
 }
 
@@ -36,4 +37,27 @@
 .market-history {
   border: 1px solid #e0e3eb;
   border-radius: 2px;
+}
+
+.modal, .modal-content  {
+  -webkit-border-radius: 30px !important;
+  -moz-border-radius: 30px !important;
+  border-radius: 30px !important; 
+}
+
+.modal-header {
+  color: #fff;
+  background-color: #242a37;
+}
+.modal-body {
+  color: #fff;
+  background-color: #242a37;
+}
+.modal-footer {
+  color: #fff;
+  background-color: #242a37;
+}
+
+.closeModal .closeButton {
+  background-color: transparent;
 }

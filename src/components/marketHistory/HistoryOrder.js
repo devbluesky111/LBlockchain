@@ -3,8 +3,8 @@ import {Tabs, Tab, Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { getContracts } from '../../redux/actions/action';
-import { getContract } from '../../redux/actions/action';
+import { getContracts } from '../../redux/actions/contractAction';
+import { getContract } from '../../redux/actions/contractAction';
 import CloseModal from './CloseModal';
 import Spinner from '../layout/Spinner';
 
@@ -39,7 +39,7 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
       <div className="history-order mt15">
         <Tabs defaultActiveKey="open-orders">
           <Tab eventKey="open-orders" title="My Positions">
-              <Table responsive="md">
+              <Table responsive style={{overflowX:'auto'}}>
                 <thead>
                   <tr>
                     <th>Contract</th>
@@ -99,7 +99,7 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
                           <td>{new_contract.contractType + ":" + new_contract.symbol}</td>
                           <td>{new_contract.margin}</td>
                           <td>{new_contract.openingPrice}</td>
-                          <td>{new_contract.unrealizedPL_amount}</td>
+                          <td className={(new_contract.unrealizedPL_amount > 0) ? `text-success` : `text-danger`}>{new_contract.unrealizedPL_amount}</td>
                           <td>{new_contract.currentPrice}</td>
                           <td>{new_contract.openingTime}</td>
                           <td>{new_contract.orderTime}</td>
