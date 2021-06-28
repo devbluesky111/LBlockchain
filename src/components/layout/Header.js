@@ -1,61 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-// import { Link } from 'react-router-dom';
 import { HashLink as Link } from 'react-router-hash-link';
-// import Web3 from 'web3';
-import Backend from './../../@utils/BackendUrl';
-import axios from 'axios';
 import PropTypes from 'prop-types';
+import DisconnectModal from './../DisconnectModal'
+import MetamaskSettingModal from './../MetamaskSettingModal'
 import { connect } from 'react-redux';
-import { loadUser } from '../../redux/actions/authAction';
+import { login } from '../../redux/actions/authAction';
 
-  const Header = ({loadUser}) => {
+  const Header = ({ login, auth : {publicAddress, balance, buttonText} }) => {
 
-    const [buttonText, setButtonText] = useState('Connect Metamask');
+    const [disconnectModalShow, setDisconnectModalShow] = useState(false);
+    const [metamaskSettingModalShow, setMetamaskSettingModalShow] = useState(false);
 
     useEffect(() => {
-      document.body.classList.add('dark');      
+      document.body.classList.add('dark');
     }, []);
 
     const connect = async (e) => {
       e.preventDefault();
-      const { ethereum } = window
-      if (ethereum && ethereum.isMetaMask) {
+      const { ethereum, web3 } = window
+      if (typeof web3 !== 'undefined') {
         //Check if chain is set to BSC and change it
         const chainId = await ethereum.request({ method: 'eth_chainId'})
         if (chainId !== '0x38') {
-          console.log('you need to change the Chain to BSC')
+          setMetamaskSettingModalShow(true)
         }
-
         // get active publicAddress
         const publicAddress = await ethereum.request({ method: 'eth_requestAccounts' })
         if(publicAddress) {
-          // Check if user with current publicAddress is already present on backend
-          let userData;
-          const res = await axios.get(Backend.URL + `/api/users?publicAddress=${publicAddress}`, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
-          if(res.data) {
-            userData = res.data;
-          } else {
-            const resp = await axios.post(Backend.URL + '/api/users', {publicAddress: publicAddress}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
-            if(resp.data.success === true){
-              userData = resp.data.result;
-            } else {
-              console.log('registration failed')
-            }
-          }
-          console.log('userdata', userData);
-          if(userData) {
-            loadUser(userData);
-            // Change the button text into the wallet address.
-            let buttonText = `${userData.publicAddress.substr(0, 4)}...${userData.publicAddress.substr(-4)}`
-            setButtonText(buttonText)
-            // Handle sign message
-            // await handleSignMessage({publicAddress: res.data.publicAddress, nonce: res.data.nonce})
-            // await handleAuthenticate()
-          }
+          setTimeout(() => {
+            login(publicAddress[0])
+          }, 1500);
         }
       } else {
-        console.log('MetaMask is not installed yet')
         if(navigator.userAgent.indexOf("Chrome") !== -1 )
         {
           window.open(
@@ -77,29 +54,10 @@ import { loadUser } from '../../redux/actions/authAction';
       }
     }
 
-    // const handleSignMessage = ({ publicAddress, nonce }) => {
-    //   console.log('p--A-->', publicAddress, nonce)
-    //   // const web3 = new Web3(Web3.givenProvider)
-    //   return new Promise((resolve, reject) =>
-    //     window.ethereum.on('chainChanged', (chainId) => {
-    //       /* handle the chainId */
-    //       console.log('chainID', chainId) 
-    //     })
-    //     // web3.personal.sign(
-    //     //   web3.fromUtf8(`I am signing my one-time nonce: ${nonce}`),
-    //     //   publicAddress,
-    //     //   (err, signature) => {
-    //     //     if (err) return reject(err);
-    //     //     return resolve({ publicAddress, signature });
-    //     //   }
-    //     // )
-    //   );
-    // };
-
-    // const handleAuthenticate = () => {
-    //   console.log('handle authentication');
-    // }
-
+    const disconnect = (e) => {
+      e.preventDefault();
+      setDisconnectModalShow(true);
+    }
       
     return (
       <>
@@ -125,17 +83,21 @@ import { loadUser } from '../../redux/actions/authAction';
                 </Link>
               </Nav>
               <Nav className="navbar-nav ml-auto">
-                <div style={{color:'#FFF', verticalAlign:'middle', textAlign:'center', margin:'auto', marginRight:'20px'}} >
-                  Balance : 30000 USD
-                </div>                
-                <Link to="/wallet" className="nav-link">
-                  <button type="button" className="btn transaction"
-                    style={{color:'#FFF', backgroundColor: '#1bb655'}}>
-                      <i className="fas fa-coins mr-1 text-white"></i>Deposit/Withdraw
-                  </button>
-                </Link>
+                {publicAddress ?
+                <>
+                  <div style={{color:'#FFF', verticalAlign:'middle', textAlign:'center', margin:'auto', marginRight:'20px'}} >
+                    Balance : {balance} USDT
+                  </div>                
+                  <Link to="/wallet" className="nav-link">
+                    <button type="button" className="btn transaction"
+                      style={{color:'#FFF', backgroundColor: '#1bb655'}}>
+                        <i className="fas fa-coins mr-1 text-white"></i>Deposit/Withdraw
+                    </button>
+                  </Link>
+                </> : <></>
+                }
                 <button type="button" className="btn transaction"
-                  onClick={connect}
+                  onClick={buttonText === 'Connect Metamask' ? connect : disconnect}
                   style={{color:'#FFF', backgroundColor: '#007bff'}}>
                    <img src={'img/metamask.svg'} alt="fox" width="19px" /> {buttonText}
                 </button>
@@ -143,12 +105,25 @@ import { loadUser } from '../../redux/actions/authAction';
             </Navbar.Collapse>
           </Navbar>
         </header>
+        <DisconnectModal
+          show={disconnectModalShow}
+          onHide={() => setDisconnectModalShow(false)}
+        />
+        <MetamaskSettingModal
+          show={metamaskSettingModalShow}
+          onHide={() => setMetamaskSettingModalShow(false)}
+        />
       </>
     );
 }
 
 Header.propTypes = {
-  loadUser: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
-export default connect(null, {loadUser})(Header);
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, {login})(Header);
