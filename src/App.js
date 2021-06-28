@@ -1,23 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { Provider } from "react-redux";
 import Index from './pages';
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import rootReducer from "./redux/reducers";
+import { LOGOUT } from './redux/actions/types';
 import { Web3ReactProvider } from '@web3-react/core'
-const defaultState = {};
-const middleware = [thunk];
-
-const store = createStore(
-  rootReducer,
-  defaultState,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+import { loadUser } from './redux/actions/authAction';
+import setAuthToken from './@utils/setAuthToken';
+import store from './store';
 
 const App = () => {
+
+  useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    store.dispatch(loadUser());
+
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: LOGOUT });
+    });
+  }, []);
 
   return (
     <>
