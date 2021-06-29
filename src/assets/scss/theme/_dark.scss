@@ -50,7 +50,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .dark .history-order {
   height: 398px;
-  background-color: #2a2e39;
+  background-color: #242a37;
+}
+.dark .market-history {
+  height: 398px;
+  background-color: #242a37;
 }
 .dark .history-order .table td,
 .dark .history-order .table th,
@@ -58,11 +62,15 @@ h1, h2, h3, h4, h5, h6 {
 .dark .market-history .table th {
   border-top: 1px solid #2a2e39;
   text-align: center;
+  white-space: nowrap;
 }
 .dark .history-order .table td,
 .dark .history-order .table th {
   width: 1%;
-  white-space: nowrap;
+}
+.dark .market-history .table td,
+.dark .market-history .table th {
+  width: 1%;
 }
 .dark .order-book thead tr {
   border-bottom: 1px solid #2a2e39;
@@ -72,6 +80,7 @@ h1, h2, h3, h4, h5, h6 {
 .dark .history-order,
 .dark .market-news {
   border: 1px solid #2a2e39;
+  background-color: #242a37;
 }
 .dark tbody tr:hover {
   background: #2a2e39;
@@ -483,8 +492,4 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #2a2e39;
   margin-top: -10px;
   // border-bottom: 1px solid #2a2e39;
-}
-.history-order table {
-  width: 100%;
-  table-layout: fixed;
 }

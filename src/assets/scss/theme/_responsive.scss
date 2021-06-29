@@ -3,7 +3,7 @@
     height: 760px;
   }
   .no-fluid .market-pairs tbody {
-    height: 686px;
+    height: 668px;
   }
   .settings-profile .custom-file {
     width: 25%;
@@ -11,10 +11,10 @@
 }
 @media only screen and (max-width: 1300px) {
   .market-pairs tbody {
-    height: 740px;
+    height: 666px;
   }
   .no-fluid .market-pairs tbody {
-    height: 755px;
+    height: 645px;
   }
 }
 @media only screen and (max-width: 1200px) {
@@ -33,22 +33,26 @@
     width: 35%;
   }
 }
-@media only screen and (max-width: 918px) {
-  .market-history tbody {
-    height: 274px;
-  }
-}
-@media only screen and (max-width: 918px) {
-  .history-order tbody {
-    height: 274px;
-  }
-}
+// @media only screen and (max-width: 918px) {
+//   .no-fluid .market-history tbody {
+//     height: 643px;
+//   }
+// }
+
 @media only screen and (max-width: 792px) {
-  .market-pairs tbody {
-    height: 699px;
+  .no-fluid .market-pairs tbody {
+    height: 643px;
+    overflow-y: scroll;
   }
 }
 @media only screen and (max-width: 768px) {
+  .no-fluid .market-pairs tbody {
+    height: 340px;
+    overflow-y: scroll;
+  }
+  .market-trade {
+    margin-top: 250px;
+  }
   .settings-profile .custom-file {
     width: 45%;
   }

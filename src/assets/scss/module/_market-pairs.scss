@@ -64,12 +64,11 @@
   display: block;
 }
 .no-fluid .market-pairs tbody {
-  height: 686px;
+  height: 672px;
 }
 .market-pairs table,
 .market-pairs tr {
   width: 100%;
-  table-layout: fixed;
 }
 .market-pairs tr {
   float: left;
@@ -79,5 +78,5 @@
 
 .market-pairs thead th,
 .market-pairs tbody td {
-  width: 65%;
+  width: 50%;
 }

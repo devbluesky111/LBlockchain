@@ -175,7 +175,7 @@
 }
 
 .settings .wallet-address input {
-  padding: 25px 15px;
+  padding: 20px 15px;
   font-size: 14px;
 }
 .settings .wallet-address .input-group-prepend button {
@@ -247,12 +247,31 @@
   border: 1px solid #FFF;
   padding: 10px 25px!important;
 }
-.wallet .withdraw-button {
-  margin-top: 55px;
+.wallet .deposit-button {
+  margin-top: 75px;
   border-radius: 5px;
   border: 0px solid #FFF;
   background: #26de81;
   color: #ffffff;
   box-shadow: 0px 0px 15px 0px #26de81ad;
   width: 100%!important;
+}
+.wallet .withdraw-button {
+  margin-top: 57px;
+  border-radius: 5px;
+  border: 0px solid #FFF;
+  background: #26de81;
+  color: #ffffff;
+  box-shadow: 0px 0px 15px 0px #26de81ad;
+  width: 100%!important;
+}
+.wallet #depositAmount {
+  position: relative;
+}
+.wallet #depositAmount::after {
+  font-family: 'FontAwesome';
+  position: absolute;
+  top: 0px;
+  left: -5px;
+  content: "HHHHH";
 }
