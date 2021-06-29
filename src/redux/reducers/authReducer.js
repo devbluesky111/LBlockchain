@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   //LOGIN_FAIL,
   LOGOUT,
+  BALANCE_LOADED
 } from '../actions/types';
 
 const initialState = {
@@ -13,7 +14,9 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   publicAddress: '',
-  nonce: ''
+  nonce: '',
+  balance: '',
+  buttonText: 'Connect Metamask'
 };
 
 function authReducer(state = initialState, action) {
@@ -26,7 +29,9 @@ function authReducer(state = initialState, action) {
         isAuthenticated: true,
         loading: false,
         publicAddress: payload.publicAddress,
-        nonce: payload.nonce
+        nonce: payload.nonce,
+        balance: payload.balance,
+        buttonText: `${payload.publicAddress.substr(0, 4)}...${payload.publicAddress.substr(-4)}`
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -43,7 +48,16 @@ function authReducer(state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
-        user: null
+        publicAddress: null,
+        nonce: null,
+        balance: null,
+        buttonText: 'Connect Metamask'
+      };
+    case BALANCE_LOADED:
+      return {
+        ...state,
+        balance: payload,
+        loading: false
       };
     default:
       return state;
