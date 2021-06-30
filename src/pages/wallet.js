@@ -1,37 +1,89 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Tab, Row, Col, Nav } from 'react-bootstrap';
-import Backend from './../@utils/BackendUrl';
-import axios from 'axios';
+import Web3 from 'web3'
+import api from '../@utils/api';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Custody from './../components/custody/Custody.json'
+import env from "react-dotenv";
+import { loadBalance } from '../redux/actions/authAction';
 
-const Wallet = ({auth : {publicAddress}}) => {
-  const [chargeAddress, setChargeAddress] = useState();
-  const [withdrawAmount, setWithdrawAmount] = useState();
+const Wallet = ({auth : {publicAddress, balance}, loadBalance}) => {
+  const [depositAmount, setDepositAmount] = useState('');
+  const [depositBNB, setDepositBNB] = useState('');
+  const [withdrawAmount, setWithdrawAmount] = useState('');
+  const [withdrawBNB, setWithdrawBNB] = useState('');
+  const [withdrawAlert, setWithdrawAlert] = useState(false);
 
-  const init = async () => {
-    console.log('wallet page loaded');
-		const res = await axios.get(Backend.URL + '/api/wallets', { withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
-		setChargeAddress(res.data);
-	}
-
-	useEffect(() => {
-		init();
-	}, []);
-
+  const depositHandle = (e) => {
+    setDepositAmount(e.target.value);
+    const rate = 2000;
+    let exchangedInputData = (e.target.value/rate).toString();
+    setDepositBNB(exchangedInputData);
+  }
+  
+  const withdrawHanlde = (e) => {
+    if(e.target.value < 10) {
+      setWithdrawAlert(true)
+    } else {
+      setWithdrawAlert(false)
+    }
+    setWithdrawAmount(e.target.value);
+    const rate = 2000;
+    let exchangedInputData = (e.target.value/rate).toString();
+    setWithdrawBNB(exchangedInputData);
+  }
+  // deposit function
   const depositMoney = async () => {
-    const deposit_money = 1000;
-    const res = await axios.post(Backend.URL + '/api/wallets/deposit', {data: deposit_money}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
-    console.log('deposit==>', res);
+    const web3 = new Web3(window.web3.currentProvider);
+    const custodyAbi = Custody.abi;
+    const networkId = env.NETWORK_ID;
+    const contractAddress = Custody.networks[networkId].address;
+    const contractInstance = new web3.eth.Contract(custodyAbi, contractAddress);
+    if(depositBNB) {
+      contractInstance.methods.deposit().send({from: publicAddress, value: web3.utils.toWei(depositBNB, "ether")})
+      .on('receipt', function(receipt){
+          // store into database
+          api.post('/wallets/deposit', {amount: depositAmount, from: receipt.from})
+          .then((res) => {
+            if(res.data.success === true){
+              loadBalance(res.data.balance)
+              setDepositAmount('')
+            }
+          });
+      })
+      .on('error', function(error, receipt) {
+          console.log('err', error)
+          console.log('err_receipt', receipt)
+      });
+    }
   }
-
+  // withdraw function
   const withdrawMoney = async () => {
-    console.log('withdraw amount==>', withdrawAmount);
-    const res = await axios.post(Backend.URL + '/api/wallets/withdraw', {data: withdrawAmount}, {withCredentials: true, headers: {"Access-Control-Allow-Origin": "*"} });
-    console.log('withdraw==>', res);
+    const web3 = new Web3(window.web3.currentProvider);
+    const custodyAbi = Custody.abi;
+    const networkId = env.NETWORK_ID;
+    const contractAddress = Custody.networks[networkId].address;
+    const contractInstance = new web3.eth.Contract(custodyAbi, contractAddress);
+    if(withdrawBNB) {
+      contractInstance.methods.withdraw(web3.utils.toWei(withdrawBNB, "ether")).send({from: publicAddress})
+      .on('receipt', function(receipt){
+          // store into database
+          api.post('/wallets/withdraw', {amount: withdrawAmount, from: receipt.from})
+          .then((res) => {
+            if(res.data.success === true){
+              loadBalance(res.data.balance)
+              setWithdrawAmount('')
+            }
+          });
+      })
+      .on('error', function(error, receipt) {
+          console.log('err', error)
+          console.log('err_receipt', receipt)
+      });
+    }
   }
 
-  console.log('charge_address===>',chargeAddress);
   return (
     <>
       <div className="settings mtb15">
@@ -53,10 +105,10 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>35.4842458</h3>
+                        <h3>${Number.parseFloat(balance).toPrecision(6)}</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
-                              0.0000000
+                            0.0000000
                         </p>
                       </div>
                     </Nav.Link>
@@ -74,10 +126,10 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>4.5484254</h3>
+                        <h3>0.00000</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
-                                  0.0000000
+                            0.0000000
                         </p>
                       </div>
                     </Nav.Link>
@@ -95,10 +147,10 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>13.454845</h3>
+                        <h3>0.00000</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
-                                  0.0000000
+                          0.0000000
                         </p>
                       </div>
                     </Nav.Link>
@@ -116,7 +168,7 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>4.458941</h3>
+                        <h3>0.00000</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
                                   0.0000000
@@ -137,11 +189,11 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>33.478951</h3>
+                        <h3>0.00000</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
-                                  0.0000000
-                                </p>
+                          0.0000000
+                        </p>
                       </div>
                     </Nav.Link>
                   </Nav.Item>
@@ -150,7 +202,7 @@ const Wallet = ({auth : {publicAddress}}) => {
                       eventKey="wallet_XMR"
                       className="d-flex justify-content-between align-items-center"
                     >
-                      <div className="d-flex" onClick={()=>{depositMoney()}}>
+                      <div className="d-flex">
                         <img src={'img/icon/7.png'} alt="btc" />
                         <div>
                           <h2>XMR</h2>
@@ -158,11 +210,11 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>99.465975</h3>
+                        <h3>0.00000</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
-                                  0.0000000
-                                </p>
+                          0.0000000
+                        </p>
                       </div>
                     </Nav.Link>
                   </Nav.Item>
@@ -179,7 +231,7 @@ const Wallet = ({auth : {publicAddress}}) => {
                         </div>
                       </div>
                       <div>
-                        <h3>114.57564</h3>
+                        <h3>0.00000</h3>
                         <p className="text-right">
                           <i className="icon ion-md-lock"></i>{' '}
                                   0.0000000
@@ -200,24 +252,15 @@ const Wallet = ({auth : {publicAddress}}) => {
                   >
                     <div className="card" style={{height:'880px'}}>
                       <div className="card-body">
-                        <h5 className="card-title">Balances</h5>
+                        <h5  className="card-title pb-3">Balances</h5>
                         <ul>
-                          <li className="d-flex justify-content-between align-items-center">
+                          <li className="d-flex justify-content-between align-items-center px-2">
                             <div className="d-flex align-items-center">
                               <i className="icon ion-md-cash"></i>
-                              <h2>Total Equity</h2>
+                              <h2>Total Balance</h2>
                             </div>
                             <div>
-                              <h3>5.5894 BNB</h3>
-                            </div>
-                          </li>
-                          <li className="d-flex justify-content-between align-items-center">
-                            <div className="d-flex align-items-center">
-                              <i className="icon ion-md-checkmark"></i>
-                              <h2>Available Margin</h2>
-                            </div>
-                            <div>
-                              <h3>2.480 BNB</h3>
+                              <h3>{balance} USDT</h3>
                             </div>
                           </li>
                         </ul>
@@ -242,7 +285,7 @@ const Wallet = ({auth : {publicAddress}}) => {
                               </h5>
                               <div className="row wallet-address">
                                 <div className="col-md-6 p-4">
-                                  <div>
+                                  <div className="pb-4">
                                     <label htmlFor="depositCoin">Coin</label>
                                     <select
                                       id="depositCoin"
@@ -252,18 +295,20 @@ const Wallet = ({auth : {publicAddress}}) => {
                                       <option>BTC</option>
                                     </select>
                                   </div>
-                                  <div className="mt-3">
-                                    <label htmlFor="fundaccount">Deposit</label>
-                                    <select
-                                      id="fundaccount"
-                                      className="custom-select"
-                                    >
-                                      <option defaultValue>Fund Account</option>
-                                      <option>something...</option>
-                                    </select>
-                                  </div>  
-                                  <p className="text-white mt-3 ml-1">Top up BNB will be credited to Fund account<br/>
-                                  (the accounts can be transferred at any time)</p>
+                                  <div className="flex flex-column">
+                                    <label htmlFor="depositAmount">Amount:&nbsp;&nbsp; {depositAmount? `${depositBNB} BNB` : <></>}</label>
+                                    <div className="form-inline">
+                                      <input
+                                        id="depositAmount"
+                                        className="custom-select"
+                                        style={{width:'80%'}}
+                                        value={depositAmount}
+                                        onChange={depositHandle}
+                                      />
+                                      <div className="mx-auto text-white">USDT</div>
+                                    </div>
+                                  </div>
+                                  <button type="submit" className="deposit-button" onClick={()=> {depositMoney()}}>Submit</button>
                                 </div>
                                 <div className="col-md-6">
                                   <div>
@@ -325,41 +370,24 @@ const Wallet = ({auth : {publicAddress}}) => {
                                       readOnly
                                     />
                                   </div>
-                                  <div className="mt-3">
-                                    <label htmlFor="amount-withdraw">Amount</label>
-                                    <input
-                                      id="amount-withdraw"
-                                      className="custom-select"
-                                      value={withdrawAmount}
-                                      onChange={(e)=> {setWithdrawAmount(e.target.value)}}
-                                    />
-                                  </div>
                                 </div>
-                                <div className="col-md-6">
-                                  <div className="mt-3">
-                                    <label htmlFor="remark-withdraw">Remarks</label>
-                                    <input
-                                      id="remark-withdraw"
-                                      className="custom-select"
-                                    />
+                                <div className="col-md-6 p-4">
+                                  <div className="flex flex-column">
+                                    <label htmlFor="depositAmount">Amount:&nbsp;&nbsp; {withdrawAmount? `${withdrawBNB} BNB` : <></>}</label>
+                                    <div className="form-inline">
+                                      <input
+                                        id="withdrawAmount"
+                                        className="custom-select"
+                                        style={{width:'80%'}}
+                                        value={withdrawAmount}
+                                        onChange={withdrawHanlde}
+                                      />
+                                      <div className="mx-auto text-white">USDT</div>
+                                    </div>
                                   </div>
-                                  <div className="mt-3">
-                                    <label htmlFor="fee-withdraw">Fee</label>
-                                    <input
-                                      id="fee-withdraw"
-                                      className="custom-select"
-                                      value="1 USD"
-                                      readOnly
-                                    />
-                                  </div>
-                                  <div className="mt-3">
-                                    <label htmlFor="arrival-withdraw">Actual Arrival</label>
-                                    <input
-                                      id="arrival-withdraw"
-                                      className="custom-select"
-                                      value="0 USD"
-                                      readOnly
-                                    />
+                                  <div className="mt-4 mb-2">
+                                    <label htmlFor="fee-withdraw" className={withdrawAlert? "text-danger mb-3": "text-white mb-3"}>Caution</label>
+                                    <div className={withdrawAlert? "text-danger": "text-white"}>You are not allowed to withdraw less than 10 USDT.</div>
                                   </div>
                                   <button type="submit" className="withdraw-button" onClick={()=> {withdrawMoney()}}>Submit</button>     
                                 </div>
@@ -381,10 +409,11 @@ const Wallet = ({auth : {publicAddress}}) => {
 }
 
 Wallet.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  loadBalance: PropTypes.func.isRequired
 };
 const mapStateToProps = (state) => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Wallet);
+export default connect(mapStateToProps, {loadBalance})(Wallet);
