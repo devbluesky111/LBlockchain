@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import HistoryOrder from '../components/marketHistory/HistoryOrder';
 import MarketHistory from '../components/marketHistory/MarketHistory';
-// import MarketNews from '../components/MarketNews';
 import MarketPairs from '../components/MarketPairs';
 import MarketTrade from '../components/MarketTrade';
-// import OrderBook from '../components/OrderBook';
 import TradingChart from '../components/TradingChart';
 
 const Exchange = () => {
@@ -101,15 +99,6 @@ const Exchange = () => {
             <div className="col-md-2">
               <MarketHistory />
             </div>
-            {/* <div className="col-12">
-              Title
-            </div>
-            <div className="col-md-5">
-              <OrderBook />
-            </div>
-            <div className="col-md-5">
-              <MarketNews />
-            </div> */}
           </div>
         </div>
       </>
