@@ -9,7 +9,7 @@ import TradingChart from '../components/TradingChart';
 
 const Exchange = () => {
 
-  const [tab, setTab] = useState('BINANCE:BTCUSD');
+  const [tab, setTab] = useState('BINANCE:BTCUSDT');
   const [eth, setEth] = useState({askPrice:'', priceChangePercent:''});
   const [btc, setBtc] = useState({askPrice:'', priceChangePercent:''});
   const [xrp, setXrp] = useState({askPrice:'', priceChangePercent:''});
@@ -17,7 +17,7 @@ const Exchange = () => {
   const [link, setLink] = useState({askPrice:'', priceChangePercent:''});
   const [ltc, setLtc] = useState({askPrice:'', priceChangePercent:''});
 
-  const getEthDataFromApi = async () => {
+  const getRateFromApi = async () => {
     try {
       // ETHUSDT
       const ethResponse = await fetch("https://api.binance.com/api/v3/ticker/24hr?symbol=ETHUSDT");
@@ -73,9 +73,9 @@ const Exchange = () => {
   }
 
   useEffect(() => {
-    getEthDataFromApi()
+    getRateFromApi()
     const interval = setInterval(() => {
-      getEthDataFromApi()
+      getRateFromApi()
      },1000)
        
      return () => clearInterval(interval)
@@ -86,13 +86,13 @@ const Exchange = () => {
       <>
         <div className="container-fluid mtb15 no-fluid">
           <div className="row sm-gutters">
-            <div className="col-sm-12 col-md-2" style={{height:'800px', overflowY:'auto'}}>
+            <div className="col-sm-12 col-md-2">
               <MarketPairs changeContract={setTab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc}/>
             </div>
             <div className="col-sm-12 col-md-8">
               <TradingChart symbol={tab} />          
             </div>
-            <div className="col-md-2" style={{height:'800px', overflowY:'auto'}}>
+            <div className="col-md-2">
               <MarketTrade symbol={tab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc} />
             </div>
             <div className="col-md-10">

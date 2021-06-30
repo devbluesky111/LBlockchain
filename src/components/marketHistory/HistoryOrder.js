@@ -5,10 +5,11 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import { getContracts } from '../../redux/actions/contractAction';
 import { getContract } from '../../redux/actions/contractAction';
+import { getContractHistory } from '../../redux/actions/contractAction';
 import CloseModal from './CloseModal';
 import Spinner from '../layout/Spinner';
 
-const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts, contract: { contracts, loading } }) => {
+const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts, getContractHistory, contract: { contracts, loading, history } }) => {
   const [closeModalShow, setCloseModalShow] = useState(false);
   const [clearStatus, setClearStatus] = useState(true);
 
@@ -22,7 +23,8 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
   
   useEffect(() => {
     getContracts();
-  }, [getContracts]);
+    getContractHistory();
+  }, [getContracts, getContractHistory]);
 
   useEffect(() => {
     if(contracts === []) {
@@ -39,11 +41,11 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
       <div className="history-order mt15">
         <Tabs defaultActiveKey="open-orders">
           <Tab eventKey="open-orders" title="My Positions">
-              <Table responsive style={{overflowX:'auto'}}>
+              <Table responsive style={{overflowX:'scroll'}}>
                 <thead>
                   <tr>
                     <th>Contract</th>
-                    <th>Margin</th>
+                    <th>Order Value</th>
                     <th>Opening Price</th>
                     <th>Unrealized P/L</th>
                     <th>Current Price</th>
@@ -65,23 +67,23 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
                       new_contract.symbol = contract.symbol.split(':')[1];
                       new_contract.margin = contract.margin;
                       new_contract.openingPrice = contract.openingPrice;
-                      if(contract.symbol === 'BINANCE:BTCUSD') {
+                      if(contract.symbol === 'BINANCE:BTCUSDT') {
                         new_contract.currentPrice = btc.askPrice;
                         new_contract.unrealizedPL_percent = (btc.askPrice-contract.openingPrice)/contract.openingPrice*100;
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
-                      } else if(contract.symbol === 'BINANCE:ETHUSD') {
+                      } else if(contract.symbol === 'BINANCE:ETHUSDT') {
                         new_contract.currentPrice = eth.askPrice;
                         new_contract.unrealizedPL_percent = (eth.askPrice-contract.openingPrice)/contract.openingPrice*100;
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
-                      } else if(contract.symbol === 'BINANCE:XRPUSD') {
+                      } else if(contract.symbol === 'BINANCE:XRPUSDT') {
                         new_contract.currentPrice = xrp.askPrice;
                         new_contract.unrealizedPL_percent = (xrp.askPrice-contract.openingPrice)/contract.openingPrice*100;
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
-                      } else if(contract.symbol === 'BINANCE:DOGEUSD') {
+                      } else if(contract.symbol === 'BINANCE:DOGEUSDT') {
                         new_contract.currentPrice = doge.askPrice;
                         new_contract.unrealizedPL_percent = (doge.askPrice-contract.openingPrice)/contract.openingPrice*100;
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
-                      } else if(contract.symbol === 'BINANCE:LINKUSD') {
+                      } else if(contract.symbol === 'BINANCE:LINKUSDT') {
                         new_contract.currentPrice = link.askPrice;
                         new_contract.unrealizedPL_percent = (link.askPrice-contract.openingPrice)/contract.openingPrice*100;
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
@@ -96,7 +98,7 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
 
                       return (
                         <tr key={new_contract.id}>
-                          <td>{new_contract.contractType + ":" + new_contract.symbol}</td>
+                          <td>{new_contract.contractType + " : " + new_contract.symbol}</td>
                           <td>{new_contract.margin}</td>
                           <td>{new_contract.openingPrice}</td>
                           <td className={(new_contract.unrealizedPL_amount > 0) ? `text-success` : `text-danger`}>{new_contract.unrealizedPL_amount}</td>
@@ -121,52 +123,37 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
                 </tbody>
               </Table>
           </Tab>
-          <Tab eventKey="closed-orders" title="Trigger Order">
-            <ul className="d-flex justify-content-between market-order-item">
-              <li>Contract</li>
-              <li>Order Time</li>
-              <li>Margin</li>
-              <li>Trigger Price</li>
-              <li>Closing Price</li>
-              <li>Current Price</li>
-              <li>Order Number</li>
-              <li>Operation</li>
-            </ul>
-          </Tab>
           <Tab eventKey="order-history" title="History">
-            <ul className="d-flex justify-content-between market-order-item">
-              <li>Contract</li>
-              <li>Margin</li>
-              <li>Closing Time</li>
-              <li>Closing Type</li>
-              <li>Closing Price</li>
-              <li>Trading Fee</li>
-              <li>Funding Fee</li>
-              <li>Opening Time</li>
-              <li>Opening Price</li>
-              <li>Opening Type</li>
-              <li>Order Number</li>
-            </ul>
-            <span className="no-data">
-              <i className="icon ion-md-document"></i>
-              No data
-            </span>
-          </Tab>
-          <Tab eventKey="balance" title="Trigger History">
-            <ul className="d-flex justify-content-between market-order-item">
-              <li>Contract</li>
-              <li>Order Time</li>
-              <li>Trigger Time</li>
-              <li>Margin</li>
-              <li>Trigger Price</li>
-              <li>Closing Fee</li>
-              <li>Status</li>
-              <li>Order Number</li>
-            </ul>
-            <span className="no-data">
-              <i className="icon ion-md-document"></i>
-              No data
-            </span>
+            <Table responsive style={{overflowX:'scroll'}}>
+              <thead>
+                <tr>
+                  <th>Contract</th>
+                  <th>Order Value</th>
+                  <th>Opening Price</th>
+                  <th>Opening Time</th>
+                  <th>Closing Time</th>
+                  <th>Order Time</th>
+                  <th>Order Id</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history && history.map((item) => {
+                  return (
+                    <tr key={item._id}>
+                      <td>{item.contractType + ' : ' + item.symbol.split(':')[1]}</td>
+                      <td>{item.margin}</td>
+                      <td>{item.openingPrice}</td>
+                      <td>{item.openingTime}</td>
+                      <td>{item.closingTime}</td>
+                      <td>{item.orderTime}</td>
+                      <td>{item._id}</td>
+                      <td>{moment(item.date).format('YYYY/MM/DD hh:mm:ss')}</td>
+                    </tr>
+                  )                  
+                })}
+              </tbody>
+            </Table>
           </Tab>
         </Tabs>
       </div>
@@ -180,6 +167,8 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
 
 HistoryOrder.propTypes = {
   getContracts: PropTypes.func.isRequired,
+  getContract: PropTypes.func.isRequired,
+  getContractHistory: PropTypes.func.isRequired,
   contract: PropTypes.object.isRequired
 };
 
@@ -187,4 +176,4 @@ const mapStateToProps = (state) => ({
   contract: state.contract
 });
 
-export default connect(mapStateToProps, { getContract, getContracts })(HistoryOrder);
+export default connect(mapStateToProps, { getContract, getContracts, getContractHistory })(HistoryOrder);

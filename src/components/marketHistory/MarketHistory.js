@@ -1,96 +1,55 @@
-import React from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Tabs, Tab, Table } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import { getContractHistory } from '../../redux/actions/contractAction';
 
-export default function MarketHistory() {
+const MarketHistory = ({contract: {history}, getContractHistory}) => {
+
+  useEffect(() => {
+    getContractHistory();
+  }, [getContractHistory]);
+
+  console.log('history-->', history)
   return (
     <>
       <div className="market-history mt15">
         <Tabs defaultActiveKey="recent-trades">
           <Tab eventKey="recent-trades" title="Recent Trades">
-            <table className="table">
+            <Table responsive style={{overflowX: 'auto'}}>
               <thead>
                 <tr>
                   <th>Time</th>
-                  <th>Price(BTC)</th>
-                  <th>Amount(ETH)</th>
+                  <th>Contract</th>
+                  <th>Value</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="red">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="red">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="red">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="red">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="red">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="green">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
-                <tr>
-                  <td>13:03:53</td>
-                  <td className="red">0.020191</td>
-                  <td>0.2155045</td>
-                </tr>
+                {history && history.slice(0,5).map((item) => {
+                  return (
+                    <tr key={item._id}>
+                      <td>{moment(item.date).format('YYYY/MM/DD hh:mm:ss')}</td>
+                      <td >{item.contractType + ' : ' + item.symbol.split(':')[1]}</td>
+                      <td>{item.margin}</td>
+                    </tr>
+                  )                  
+                })}
               </tbody>
-            </table>
+            </Table>
           </Tab>
         </Tabs>
       </div>
     </>
   );
 }
+
+MarketHistory.propTypes = {
+  getContractHistory: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  contract: state.contract
+});
+
+export default connect(mapStateToProps, {getContractHistory})(MarketHistory);

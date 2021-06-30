@@ -1,13 +1,18 @@
 import {
   GET_CONTRACT,
   GET_CONTRACTS,
-  CREATE_CONTRACT,
-  CLOSE_CONTRACT
+  GET_CONTRACT_HISTORY,
+  CREATE_BUY_CONTRACT,
+  CREATE_SELL_CONTRACT,
+  CLOSE_CONTRACT,
+  GET_RATE
 } from "../actions/types";
 
 const initialState = {
   contracts: [],
   contract: null,
+  history: [],
+  rateData: {},
   loading: true,
   error: {}
 };
@@ -29,7 +34,21 @@ const contractReducer = (state = initialState, action) => {
         loading: false
       };
 
-    case CREATE_CONTRACT: 
+    case GET_CONTRACT_HISTORY:
+      return {
+        ...state,
+        history: payload,
+        loading: false
+      };
+
+    case CREATE_BUY_CONTRACT: 
+      return {
+        ...state,
+        contracts: [payload, ...state.contracts],
+        loading: false
+      };
+
+    case CREATE_SELL_CONTRACT: 
       return {
         ...state,
         contracts: [payload, ...state.contracts],
@@ -40,6 +59,13 @@ const contractReducer = (state = initialState, action) => {
       return {
         ...state,
         contracts: state.contracts.filter((contract) => contract._id !== payload),
+        loading: false
+      };
+
+    case GET_RATE:
+      return {
+        ...state,
+        rateData: payload,
         loading: false
       };
 
