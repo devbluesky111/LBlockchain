@@ -3,10 +3,11 @@ import { Tabs, Tab } from 'react-bootstrap';
 import swal from 'sweetalert';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { setBalance } from "./../redux/actions/authAction";
 import { createBuyContract } from "./../redux/actions/contractAction";
 import { createSellContract } from "./../redux/actions/contractAction";
 
-const MarketTrade = ({ createBuyContract, createSellContract, symbol, btc, eth, xrp, doge, link, ltc, auth : {balance}}) => {
+const MarketTrade = ({setBalance, createBuyContract, createSellContract, symbol, btc, eth, xrp, doge, link, ltc, auth : {balance}}) => {
 
   const [orderValue, setOrderValue] = useState('');
   const [orderTime, setOrderTime] = useState('');
@@ -37,27 +38,45 @@ const MarketTrade = ({ createBuyContract, createSellContract, symbol, btc, eth, 
 
   const orderValidation = () => {
     var orderIsValid = true;
-    if(orderValue < 1) {
+    if(orderTime === '') {
       orderIsValid = false;
       swal({
-        text: "The order value must be greater than 1 USDT. Reenter the value",
+        text: "Please insert the order time.",
         icon: "warning",
         dangerMode: true
       })
-    } else if(orderValue > 500) {
-      orderIsValid = false;
-      swal({
-        text: "Max order value Allowed is 500 USDT. Reenter the value",
-        icon: "warning",
-        dangerMode: true
-      })
+    } else {
+      if(orderValue < 1) {
+        orderIsValid = false;
+        swal({
+          text: "The order value must be greater than 1 USDT. Reenter the value",
+          icon: "warning",
+          dangerMode: true
+        })
+      } else if(orderValue > parseFloat(balance)) {
+        orderIsValid = false;
+        swal({
+          text: "Not Available Balance. Enter the right value ",
+          icon: "warning",
+          dangerMode: true
+        })
+      } else if(orderValue > 500) {
+        orderIsValid = false;
+        swal({
+          text: "Max order value Allowed is 500 USDT. Reenter the value",
+          icon: "warning",
+          dangerMode: true
+        })
+      }
     }
     return orderIsValid;
   }
 
-  const orderBuy = async () => {
+  const orderBuy = async () => {                                       
     if(orderValidation()){
-      setTimeout(() => {
+      setTimeout( async() => {
+        const currentBalance = (parseFloat(balance) - orderValue).toFixed(2);
+        await setBalance(currentBalance)
         createBuyContract({margin: orderValue, openingPrice: rate.askPrice, orderTime: orderTime, symbol: symbol});      
       }, 1000);
       setOrderValue('');
@@ -72,8 +91,10 @@ const MarketTrade = ({ createBuyContract, createSellContract, symbol, btc, eth, 
   
   const orderSell = async () => {
     if(orderValidation()){
-      setTimeout(() => {
-        createSellContract({margin: orderValue, openingPrice: rate.askPrice, orderTime: orderTime, symbol: symbol});      
+      setTimeout( async() => {
+        const currentBalance = (parseFloat(balance) - orderValue).toFixed(2);
+        await setBalance(currentBalance)
+        createSellContract({margin: orderValue, openingPrice: rate.askPrice, orderTime: orderTime, symbol: symbol});
       }, 1000);
       setOrderValue('');
       setOrderTime('');
@@ -179,6 +200,7 @@ const MarketTrade = ({ createBuyContract, createSellContract, symbol, btc, eth, 
 }
 
 MarketTrade.propTypes = {
+  setBalance: PropTypes.func.isRequired,
   createBuyContract: PropTypes.func.isRequired,
   createSellContract: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
@@ -189,7 +211,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(
-  mapStateToProps, {createBuyContract, createSellContract}
-  )(MarketTrade);
+  mapStateToProps, {setBalance, createBuyContract, createSellContract})(MarketTrade);
 
 

@@ -25,6 +25,19 @@ export const loadUser = () => async dispatch => {
   }
 };
 
+// Set Balance
+export const setBalance = balance => async dispatch => {
+  try {
+    await api.post('/auth/set_balance', {balance:balance});
+    dispatch({
+      type: BALANCE_LOADED,
+      payload: balance
+    });
+  } catch (err) {
+   console.log(err)
+  }
+};
+
 // Load balance
 export const loadBalance = balance => async dispatch => {
   try {
