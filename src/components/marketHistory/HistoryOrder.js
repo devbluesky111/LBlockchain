@@ -13,7 +13,7 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
   const [closeModalShow, setCloseModalShow] = useState(false);
   const [clearStatus, setClearStatus] = useState(true);
 
-  const closeContract = (id) => {  
+  const closeContract = (id) => {
       getContract(id);
       setCloseModalShow(true);
   }
@@ -69,46 +69,46 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
                       new_contract.openingPrice = contract.openingPrice;
                       if(contract.symbol === 'BINANCE:BTCUSDT') {
                         new_contract.currentPrice = btc.askPrice;
-                        new_contract.unrealizedPL_percent = (btc.askPrice-contract.openingPrice)/contract.openingPrice*100;
+                        new_contract.unrealizedPL_percent = ((btc.askPrice-contract.openingPrice)/contract.openingPrice*100).toFixed(2);
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
                       } else if(contract.symbol === 'BINANCE:ETHUSDT') {
                         new_contract.currentPrice = eth.askPrice;
-                        new_contract.unrealizedPL_percent = (eth.askPrice-contract.openingPrice)/contract.openingPrice*100;
+                        new_contract.unrealizedPL_percent = ((eth.askPrice-contract.openingPrice)/contract.openingPrice*100).toFixed(2);
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
                       } else if(contract.symbol === 'BINANCE:XRPUSDT') {
                         new_contract.currentPrice = xrp.askPrice;
-                        new_contract.unrealizedPL_percent = (xrp.askPrice-contract.openingPrice)/contract.openingPrice*100;
+                        new_contract.unrealizedPL_percent = ((xrp.askPrice-contract.openingPrice)/contract.openingPrice*100).toFixed(2);
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
                       } else if(contract.symbol === 'BINANCE:DOGEUSDT') {
                         new_contract.currentPrice = doge.askPrice;
-                        new_contract.unrealizedPL_percent = (doge.askPrice-contract.openingPrice)/contract.openingPrice*100;
+                        new_contract.unrealizedPL_percent = ((doge.askPrice-contract.openingPrice)/contract.openingPrice*100).toFixed(2);
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
                       } else if(contract.symbol === 'BINANCE:LINKUSDT') {
                         new_contract.currentPrice = link.askPrice;
-                        new_contract.unrealizedPL_percent = (link.askPrice-contract.openingPrice)/contract.openingPrice*100;
+                        new_contract.unrealizedPL_percent = ((link.askPrice-contract.openingPrice)/contract.openingPrice*100).toFixed(2);
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
                       } else {
                         new_contract.currentPrice = ltc.askPrice;
-                        new_contract.unrealizedPL_percent = (ltc.askPrice-contract.openingPrice)/contract.openingPrice*100;
+                        new_contract.unrealizedPL_percent = ((ltc.askPrice-contract.openingPrice)/contract.openingPrice*100).toFixed(2);
                         new_contract.unrealizedPL_amount = (contract.margin*new_contract.unrealizedPL_percent/100).toFixed(2);
                       }
-                      new_contract.openingTime = moment(contract.openingTime).format('YYYY/MM/DD hh:mm:ss');
+                      new_contract.openingTime = moment(contract.openingTime).format('MM/DD hh:mm:ss');
                       new_contract.orderTime = contract.orderTime;
-                      new_contract.closingTime = moment(contract.closingTime).format('YYYY/MM/DD hh:mm:ss');
+                      new_contract.closingTime = moment(contract.closingTime).format('MM/DD hh:mm:ss');
 
                       return (
                         <tr key={new_contract.id}>
-                          <td>{new_contract.contractType + " : " + new_contract.symbol}</td>
+                          <td className={new_contract.contractType === "BUY" ? "text-success":"text-danger"}>{new_contract.contractType + " : " + new_contract.symbol}</td>
                           <td>{new_contract.margin}</td>
                           <td>{new_contract.openingPrice}</td>
-                          <td className={(new_contract.unrealizedPL_amount > 0) ? `text-success` : `text-danger`}>{new_contract.unrealizedPL_amount}</td>
+                          <td className={(new_contract.unrealizedPL_amount > 0) ? "text-success" : "text-danger"}>{new_contract.unrealizedPL_amount+ "(" + new_contract.unrealizedPL_percent + "%)"}</td>
                           <td>{new_contract.currentPrice}</td>
                           <td>{new_contract.openingTime}</td>
                           <td>{new_contract.orderTime}</td>
                           <td>{new_contract.closingTime}</td>
                           <td>{new_contract.id}</td>
                           <td>
-                            <button className="order-clear"  onClick={() => {closeContract(contract._id)}}>Close</button>
+                            <button className="order-clear"  onClick={() => {closeContract(new_contract.id)}}>Close</button>
                           </td>
                         </tr>
                       )
@@ -141,14 +141,14 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
                 {history && history.map((item) => {
                   return (
                     <tr key={item._id}>
-                      <td>{item.contractType + ' : ' + item.symbol.split(':')[1]}</td>
+                      <td className={item.contractType === "BUY" ? "text-success":"text-danger"}>{item.contractType + ' : ' + item.symbol.split(':')[1]}</td>
                       <td>{item.margin}</td>
                       <td>{item.openingPrice}</td>
                       <td>{item.openingTime}</td>
                       <td>{item.closingTime}</td>
                       <td>{item.orderTime}</td>
                       <td>{item._id}</td>
-                      <td>{moment(item.date).format('YYYY/MM/DD hh:mm:ss')}</td>
+                      <td>{moment(item.date).format('MM/DD hh:mm:ss')}</td>
                     </tr>
                   )                  
                 })}
@@ -158,8 +158,9 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
         </Tabs>
       </div>
       <CloseModal
-      show={closeModalShow}
-      onHide={() => setCloseModalShow(false)}
+        show={closeModalShow}
+        onHide={() => setCloseModalShow(false)}
+        eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc}
       />
     </>
   );

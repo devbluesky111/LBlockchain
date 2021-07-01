@@ -7,6 +7,8 @@ import {
   CREATE_BUY_CONTRACT,
   CREATE_SELL_CONTRACT,
   CLOSE_CONTRACT,
+  SET_CONTRACT,
+  BALANCE_LOADED,
   GET_RATE
 } from './types';
 
@@ -47,11 +49,18 @@ export const createBuyContract = postData => async dispatch => {
     });
     const orderTime = res.data.result.orderTime*1000;
     const id = res.data.result._id;
-    setTimeout(() => {
-      console.log('initiated')
-      dispatch(closeContract(id))
+    const orderValue = res.data.result.margin
+    setTimeout( async() => {
+      const resp = await api.get(`/contracts/${id}`);
+      dispatch({
+        type: GET_CONTRACT,
+        payload: resp.data
+      });
+      const rateResponse = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${resp.data.symbol.split(':')[1]}`);
+      const rateJson = await rateResponse.json()
+      const currentRate = parseFloat(rateJson.askPrice).toPrecision(6)
+      dispatch(closeContract({id:id, orderValue:orderValue, closingPrice:currentRate, profitLoss:((currentRate - resp.data.openingPrice)/resp.data.openingPrice*resp.data.margin).toFixed(2)}))
     }, orderTime);
-
   } catch (err) {
     console.log(err);
   }
@@ -68,9 +77,17 @@ export const createSellContract = postData => async dispatch => {
     });
     const orderTime = res.data.result.orderTime*1000;
     const id = res.data.result._id;
-    setTimeout(() => {
-      console.log('initiated')
-      dispatch(closeContract(id))
+    const orderValue = res.data.result.margin
+    setTimeout( async() => {
+      const resp = await api.get(`/contracts/${id}`);
+      dispatch({
+        type: GET_CONTRACT,
+        payload: resp.data
+      });
+      const rateResponse = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${resp.data.symbol.split(':')[1]}`);
+      const rateJson = await rateResponse.json()
+      const currentRate = parseFloat(rateJson.askPrice).toPrecision(6)
+      dispatch(closeContract({id:id, orderValue:orderValue, closingPrice:currentRate, profitLoss:((currentRate - resp.data.openingPrice)/resp.data.openingPrice*resp.data.margin).toFixed(2)}))
     }, orderTime);
   } catch (err) {
     console.log(err);
@@ -91,12 +108,29 @@ export const getContract = id => async dispatch => {
 };
 
 // Close Contract
-export const closeContract = id => async dispatch => {
+export const closeContract = data => async dispatch => {
   try {
-    await api.put(`/contracts/${id}`);
+    const res = await api.put(`/contracts`, data);
     dispatch({
       type: CLOSE_CONTRACT,
-      payload: id
+      payload: res.data.result._id
+    });
+    dispatch({
+      type:BALANCE_LOADED,
+      payload: res.data.result.balance
+    });
+    dispatch(getContractHistory())
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Set Selected Contract
+export const setSelectedContract = data => async dispatch => {
+  try {
+    dispatch({
+      type: SET_CONTRACT,
+      payload: data
     });
   } catch (err) {
     console.log(err);
