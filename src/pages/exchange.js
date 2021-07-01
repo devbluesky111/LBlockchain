@@ -87,17 +87,17 @@ const Exchange = () => {
             <div className="col-sm-12 col-md-2">
               <MarketPairs changeContract={setTab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc}/>
             </div>
-            <div className="col-sm-12 col-md-8">
+            <div className="col-sm-12 col-md-7">
               <TradingChart symbol={tab} />          
             </div>
-            <div className="col-md-2">
+            <div className="col-md-3">
               <MarketTrade symbol={tab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc} />
             </div>
-            <div className="col-md-10">
+            <div className="col-md-9">
               <HistoryOrder symbol={tab} eth={eth} btc={btc} xrp={xrp} doge={doge} link={link} ltc={ltc} />
             </div>
-            <div className="col-md-2">
-              <MarketHistory />
+            <div className="col-md-3">
+              <MarketHistory symbol={tab} />
             </div>
           </div>
         </div>
