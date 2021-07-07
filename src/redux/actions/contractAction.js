@@ -87,7 +87,7 @@ export const createSellContract = postData => async dispatch => {
       const rateResponse = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${resp.data.symbol.split(':')[1]}`);
       const rateJson = await rateResponse.json()
       const currentRate = parseFloat(rateJson.askPrice).toPrecision(6)
-      dispatch(closeContract({id:id, orderValue:orderValue, closingPrice:currentRate, profitLoss:((currentRate - resp.data.openingPrice)/resp.data.openingPrice*resp.data.margin).toFixed(2)}))
+      dispatch(closeContract({id:id, orderValue:orderValue, closingPrice:currentRate, profitLoss:(( resp.data.openingPrice - currentRate)/resp.data.openingPrice*resp.data.margin).toFixed(2)}))
     }, orderTime);
   } catch (err) {
     console.log(err);
