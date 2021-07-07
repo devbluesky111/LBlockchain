@@ -65,7 +65,7 @@ const Wallet = ({auth : {publicAddress, balance}, loadBalance}) => {
     const networkId = env.NETWORK_ID;
     const contractAddress = Custody.networks[networkId].address;
     const contractInstance = new web3.eth.Contract(custodyAbi, contractAddress);
-    if(withdrawBNB) {
+    if(withdrawBNB && !withdrawAlert) {
       contractInstance.methods.withdraw(web3.utils.toWei(withdrawBNB, "ether")).send({from: publicAddress})
       .on('receipt', function(receipt){
           // store into database
