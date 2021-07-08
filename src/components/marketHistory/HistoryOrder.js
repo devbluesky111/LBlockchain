@@ -101,7 +101,10 @@ const HistoryOrder = ({btc, eth, xrp, doge, link, ltc, getContract, getContracts
                           <td className={new_contract.contractType === "BUY" ? "text-success":"text-danger"}>{new_contract.contractType + " : " + new_contract.symbol}</td>
                           <td>{new_contract.margin}</td>
                           <td>{new_contract.openingPrice}</td>
-                          <td className={(new_contract.unrealizedPL_amount > 0) ? "text-success" : "text-danger"}>{new_contract.unrealizedPL_amount+ "(" + new_contract.unrealizedPL_percent + "%)"}</td>
+                          {new_contract.contractType === "BUY" ?
+                          <td className={(new_contract.unrealizedPL_amount > 0) ? "text-success" : "text-danger"}>{new_contract.unrealizedPL_amount + "(" + new_contract.unrealizedPL_percent + "%)"}</td>:
+                          <td className={(-new_contract.unrealizedPL_amount > 0) ? "text-success" : "text-danger"}>{(-new_contract.unrealizedPL_amount) + "(" + (-new_contract.unrealizedPL_percent) + "%)"}</td>
+                          }
                           <td>{new_contract.currentPrice}</td>
                           <td>{new_contract.openingTime}</td>
                           <td>{new_contract.orderTime}</td>
