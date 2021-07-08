@@ -72,7 +72,7 @@ function CloseModal({ show, onHide, btc, eth, xrp, doge, link, ltc, closeContrac
                   Unrealize PL Amount:
               </Col>
               <Col xs={6} md={4}>
-                  {contract && currentRate && ((currentRate - contract.openingPrice)/contract.openingPrice*contract.margin).toFixed(2)}
+                  {contract && currentRate && contract?.contractType === "BUY" ? ((currentRate - contract?.openingPrice)/contract?.openingPrice*contract?.margin).toFixed(2) : ((contract?.openingPrice - currentRate)/contract?.openingPrice*contract?.margin).toFixed(2)}
               </Col>
             </Row>
             <Row className="mb-2">
@@ -95,7 +95,13 @@ function CloseModal({ show, onHide, btc, eth, xrp, doge, link, ltc, closeContrac
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide} className="closeButton">Cancel</Button>
-          <Button onClick={() => {contract && currentRate && confirmClose({id:contract._id, orderValue:contract.margin, closingPrice:currentRate, profitLoss:((currentRate - contract.openingPrice)/contract.openingPrice*contract.margin).toFixed(2)})}}>Confirm</Button>
+          <Button
+            onClick={() => {contract && currentRate && contract.contractType === "BUY" ?
+            confirmClose({id:contract._id, orderValue:contract.margin, closingPrice:currentRate, profitLoss:((currentRate - contract.openingPrice)/contract.openingPrice*contract.margin).toFixed(2)}) :
+            confirmClose({id:contract._id, orderValue:contract.margin, closingPrice:currentRate, profitLoss:((contract.openingPrice - currentRate)/contract.openingPrice*contract.margin).toFixed(2)})
+          }}>
+            Confirm
+          </Button>
         </Modal.Footer>
     </Modal>
   );
